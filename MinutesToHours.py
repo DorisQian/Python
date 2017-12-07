@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+#获取一个int值，换算他的小时和分钟数，主要联系try，excepe
 import sys
 
 def Hours():

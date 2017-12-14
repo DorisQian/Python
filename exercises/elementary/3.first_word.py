@@ -29,28 +29,6 @@ Precondition: the text can contain a-z A-Z , . '
 一个词可以包含一个撇号，它是一个词的一部分。
 整个文本可以用一个词表示，就是这样。
 
-def first_word(text: str) -> str:
-    ‘’‘
-        returns the first word in a given text.
-    ’‘’
-    # your code here
-    return text[0:2]
-
-
-if __name__ == '__main__':
-    print("Example:")
-    print(first_word("Hello world"))
-    
-    # These "asserts" are used for self-checking and not for an auto-testing
-    assert first_word("Hello world") == "Hello"
-    assert first_word(" a word ") == "a"
-    assert first_word("don't touch it") == "don't"
-    assert first_word("greetings, friends") == "greetings"
-    assert first_word("... and so on ...") == "and"
-    assert first_word("hi") == "hi"
-    print("Coding complete? Click 'Check' to earn cool rewards!")
-
-
 """
 
 def first_word(text: str) -> str:

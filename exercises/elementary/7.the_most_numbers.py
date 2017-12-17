@@ -8,7 +8,7 @@ Input: An arbitrary number of arguments as numbers (int, float).
 
 Output: The difference between maximum and minimum as a number (int, float).
 
-给你一个数组（浮点数）。你应该找到最大和最小元素的区别。你的函数应该能够处理一个未定义数量的参数。对于一个空的参数列表，该函数应该返回0。
+给你一个数组（浮点数）。你应该找到最大和最小元素的差。你的函数应该能够处理一个未定义数量的参数。对于一个空的参数列表，该函数应该返回0。
 
 计算机硬件中将浮点数表示为基2（二进制）分数。所以我们应该以±0.001的精度检查结果。
 想想如何处理任意数量的参数。
@@ -33,7 +33,19 @@ all(isinstance(x, (int, float)) for x in args)
 """
 
 def checkio(*args):
-    return 0
+	if len(args) == 0:
+		return 0
+	else:
+		min = max = args[0]
+		for i in range(len(args)):
+			if args[i] < min:
+				min = args[i]
+			if args[i] > max:
+				max = args[i]
+		return (max - min)
+
+
+
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

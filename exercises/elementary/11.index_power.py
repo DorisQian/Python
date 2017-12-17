@@ -39,7 +39,11 @@ def index_power(array, n):
     """
         Find Nth power of the element with index N.
     """
-    return None
+    if n > len(array) -1:
+        return -1
+    else:
+        return (array[n] ** n)
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

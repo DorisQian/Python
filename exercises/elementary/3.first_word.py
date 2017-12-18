@@ -50,9 +50,9 @@ def first_word(text: str) -> str:
 
 
 if __name__ == '__main__':
+    print("Example:")
     print(first_word("Hello world"))
-    print(first_word("greetings, friends"))
-    print(first_word("... and so on ..."))
+    
     # These "asserts" are used for self-checking and not for an auto-testing
     assert first_word("Hello world") == "Hello"
     assert first_word(" a word ") == "a"
@@ -60,4 +60,9 @@ if __name__ == '__main__':
     assert first_word("greetings, friends") == "greetings"
     assert first_word("... and so on ...") == "and"
     assert first_word("hi") == "hi"
+    print("Coding complete? Click 'Check' to earn cool rewards!")
+
+
+
+
 

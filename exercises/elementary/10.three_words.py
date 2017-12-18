@@ -33,6 +33,8 @@ def checkio(words):
     for wo in word:
     	if wo.isalpha():
    			sum += 1
+   			if sum == 3:
+   				break
     	else:
     		sum =0
     if sum < 3:return False
@@ -45,4 +47,5 @@ if __name__ == '__main__':
 	assert checkio("1 2 3 4") == False, "Digits"
 	assert checkio("bla bla bla bla") == True, "Bla Bla"
 	assert checkio("Hi") == False, "Hi"
+	assert checkio('Hi you are over 9000') == True, '9000'
     

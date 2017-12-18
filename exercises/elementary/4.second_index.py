@@ -28,26 +28,6 @@ def second_index(text: str, symbol: str):
         returns the second index of a symbol in a given text
     """
     
-    if symbol in text:
-        num = 0
-        for str in text :
-            if str != symbol:
-                num += 1
-            else:
-                break
-        if symbol in text[num+1:]:
-            for str2 in text[num+1:] :
-                if str2 != symbol:
-                    num += 1
-                else:
-                    num += 1
-                    break
-            return num
-        else:
-            return None
-    else:
-        return None
-
 
 if __name__ == '__main__':
     print(second_index("sims", "s"))

@@ -36,7 +36,7 @@ all(-100 < x < 100 for x in array)
 """
 
 def checkio(numbers_array):
-    return numbers_array
+	return (sorted(numbers_array, key = lambda x: abs(x)))
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

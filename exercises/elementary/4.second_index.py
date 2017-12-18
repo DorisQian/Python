@@ -20,10 +20,7 @@ Example:
 second_index("sims", "s") == 3
 second_index("find the river", "e") == 12
 second_index("hi", " ") is None
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/original
 """
 
 def second_index(text: str, symbol: str):

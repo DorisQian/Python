@@ -28,23 +28,23 @@ Precondition: the text can contain a-z A-Z , . '
 一个字符串可以以一个字母开头，例如一个点或空格。
 一个词可以包含一个撇号，它是一个词的一部分。
 整个文本可以用一个词表示，就是这样。
-
 """
+
 
 def first_word(text: str) -> str:
     """
         returns the first word in a given text.
     """
-    if text[0] == '.' :
+    if text[0] == '.':
         text1 = text.strip('.')
-    elif text[0] == ',' :
+    elif text[0] == ',':
         text1 = text.strip(',')
     else: text1 = text
-    if '.' in text1 :
+    if '.' in text1:
         text = text1.strip().split('.')
-    elif ',' in text1 :
+    elif ',' in text1:
         text = text1.strip().split(',')
-    else :
+    else:
         text = text1.strip().split()
     return text[0]
 

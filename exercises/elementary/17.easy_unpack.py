@@ -24,11 +24,6 @@ def easy_unpack(elements):
         returns a tuple with 3 elements - first, third and second to the last
     """
     # your code here
- #   new_list = ''.join(str(elements[:3:2]))
- #   ele = new_list + (str(elements[-2],))
- #   print(ele)
- #   print(new_list)
- #   return ele
 
     return (elements[0],) + (elements[2],) + (elements[-2],)
     

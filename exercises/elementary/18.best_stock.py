@@ -1,4 +1,4 @@
-You are given the current stock prices. You have to find out which stocks cost more.
+"""You are given the current stock prices. You have to find out which stocks cost more.
 
 Input: The dictionary where the market identifier code is a key and the value is a stock price.
 
@@ -23,6 +23,7 @@ Preconditions: All the prices are unique.
 输入:市场标识码是关键字的字典，其值为股票价格。
 输出:字符串和市场标识符代码。
 先决条件:所有的价格都是独一无二的。
+"""
 
 def best_stock(data):
     # your code here

@@ -1,4 +1,4 @@
-You have a table with all available goods in the store. The data is represented as a list of dicts
+"""You have a table with all available goods in the store. The data is represented as a list of dicts
 
 Your mission here is to find the TOP most expensive goods. The amount we are looking for will be given as a first argument and the whole data as the second one
 
@@ -27,6 +27,7 @@ bigger_price(1, [
 你的任务是找到最昂贵的商品。我们寻找的数量将作为第一个参数给出，整个数据作为第二个参数
 输入:int和dicts列表。每个dicts有两个键" name "和" price"
 输出:与第二个输入参数相同。
+"""
 
 def bigger_price(limit, data):
     """

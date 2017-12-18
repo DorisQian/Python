@@ -1,4 +1,4 @@
-In this mission your task is to determine the popularity of certain words in the text.
+"""In this mission your task is to determine the popularity of certain words in the text.
 
 At the input of your function are given 2 arguments: the text and the array of words the popularity of which you need to determine.
 
@@ -34,6 +34,7 @@ I was nearly new.
 如果这个单词没有被找到，它必须在字典中返回0(零)值。
 输入:文本和搜索词数组。
 输出:字典中搜索词的键值和值是这些单词在给定文本中出现的次数。
+"""
 
 def popular_words(text, words):
     # your code here

@@ -60,4 +60,5 @@ if __name__ == '__main__':
     assert first_word("greetings, friends") == "greetings"
     assert first_word("... and so on ...") == "and"
     assert first_word("hi") == "hi"
+    assert first_word("hello.world") == "hello"
 

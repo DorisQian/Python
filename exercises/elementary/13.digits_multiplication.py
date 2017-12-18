@@ -31,8 +31,12 @@ Precondition: 0 < number < 106
 """
 
 def checkio(number):
-
-    return 1
+	num = 1
+	for i in map(int,str(number)):
+		if i:
+			num *= i
+	return num
+#	return (lambda num: num*i (i for i in map(int,str(number)) if i))
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

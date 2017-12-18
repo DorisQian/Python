@@ -29,13 +29,15 @@ checkio("Hi") == False
 
 def checkio(words):
     word = words.split()
-    if len(word) < 3:
-    	return False
-    else:
-    	for wo in word:
-    		if wo.isalpha() is False:
-    			return False
-    	return True
+    sum = 0
+    for wo in word:
+    	if wo.isalpha():
+   			sum += 1
+    	else:
+    		sum =0
+    if sum < 3:return False
+    return True
+
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
 	assert checkio("Hello World hello") == True, "Hello"

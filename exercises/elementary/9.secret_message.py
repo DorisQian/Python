@@ -34,7 +34,7 @@ all(ch in string.printable for ch in text)
 
 def find_message(text):
     """Find a secret message"""
-    return ""
+    return (''.join(c for c in text if c.isupper()))
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

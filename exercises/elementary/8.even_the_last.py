@@ -34,7 +34,11 @@ def checkio(array):
     """
         sums even-indexes elements and multiply at the last
     """
-    return 0
+#    if len(array) == 0:
+#    	return 0
+#    else:
+#    	return sum(array[0::2]) * array[-1]
+    return sum(array[0::2]) * array[-1] if array else 0
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

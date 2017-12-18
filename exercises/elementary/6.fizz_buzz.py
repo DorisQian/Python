@@ -42,7 +42,7 @@ def checkio(number):
     #It's using for auto-testing and must return a result for check.
 
     #replace this for solution
-    return str(number)
+    return ('Fizz' * (not number % 3) + ' '* (not number % 15) + 'Buzz' * (not number % 5) or str(number))
 
 #Some hints:
 #Convert a number in the string with str(n)

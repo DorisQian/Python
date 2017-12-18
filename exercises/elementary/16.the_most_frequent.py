@@ -27,8 +27,12 @@ def most_frequent(data):
     """
         determines the most frequently occurring string in the sequence.
     """
-    # your code here
-    return None
+    norepeat = set(data)
+    countlist = []
+    for l in norepeat:
+        countlist.append((l, data.count(l)))
+    count = sorted(countlist, key =lambda x: x[1])
+    return count[-1][0]
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

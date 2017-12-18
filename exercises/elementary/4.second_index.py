@@ -22,6 +22,7 @@ second_index("find the river", "e") == 12
 second_index("hi", " ") is None
 """
 
+
 def second_index(text: str, symbol: str):
     """
         returns the second index of a symbol in a given text
@@ -29,13 +30,13 @@ def second_index(text: str, symbol: str):
     
     if symbol in text:
         num = 0
-        for str in text :
-            if str != symbol:
+        for str1 in text:
+            if str1 != symbol:
                 num += 1
             else:
                 break
         if symbol in text[num+1:]:
-            for str2 in text[num+1:] :
+            for str2 in text[num+1:]:
                 if str2 != symbol:
                     num += 1
                 else:

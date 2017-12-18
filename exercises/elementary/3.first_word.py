@@ -30,16 +30,11 @@ Precondition: the text can contain a-z A-Z , . '
 整个文本可以用一个词表示，就是这样。
 """
 
-<<<<<<< HEAD
-"""
 
-=======
->>>>>>> origin/original
 def first_word(text: str) -> str:
     """
         returns the first word in a given text.
     """
-<<<<<<< HEAD
     if text[0] == '.' :
         text1 = text.strip('.')
     elif text[0] == ',' :
@@ -52,23 +47,6 @@ def first_word(text: str) -> str:
     else :
         text = text1.strip().split()
     return text[0]
-
-
-if __name__ == '__main__':
-    print(first_word("Hello world"))
-    print(first_word("greetings, friends"))
-    print(first_word("... and so on ..."))
-    # These "asserts" are used for self-checking and not for an auto-testing
-    assert first_word("Hello world") == "Hello"
-    assert first_word(" a word ") == "a"
-    assert first_word("don't touch it") == "don't"
-    assert first_word("greetings, friends") == "greetings"
-    assert first_word("... and so on ...") == "and"
-    assert first_word("hi") == "hi"
-    assert first_word("hello.world") == "hello"
-=======
-    # your code here
-    return text[0:2]
 
 
 if __name__ == '__main__':
@@ -86,5 +64,5 @@ if __name__ == '__main__':
 
 
 
->>>>>>> origin/original
+
 

@@ -28,13 +28,13 @@ bigger_price(1, [
 输入:int和dicts列表。每个dicts有两个键" name "和" price"
 输出:与第二个输入参数相同。
 """
-
+from operator import itemgetter
 def bigger_price(limit, data):
     """
         TOP most expensive goods
     """
-    # your code here
-    return None
+    return(sorted(data, key = itemgetter('price'), reverse = True)[0:limit])
+    
 
 
 if __name__ == '__main__':

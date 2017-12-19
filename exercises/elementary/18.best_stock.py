@@ -27,7 +27,10 @@ Preconditions: All the prices are unique.
 
 def best_stock(data):
     # your code here
-    return 'GOOG'
+#    tup = data.items()
+#    data1 = sorted(tup, key = lambda x : x[1])
+#    return data1[-1][0]
+    return(sorted(data.items(), key = lambda x: x[1])[-1][0])
 
 
 if __name__ == '__main__':

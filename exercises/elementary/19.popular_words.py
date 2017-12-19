@@ -35,28 +35,35 @@ I was nearly new.
 输入:文本和搜索词数组。
 输出:字典中搜索词的键值和值是这些单词在给定文本中出现的次数。
 """
-
+from collections import OrderedDict
 def popular_words(text, words):
     # your code here
-    return None
-
+    text = text.lower().split()
+    dic = OrderedDict()
+    for w in words:
+        sum = 0 
+        for t in text:
+            if t == w.strip(','):
+                sum += 1
+        dic[w] = sum
+    return(dic)
 
 if __name__ == '__main__':
     print("Example:")
     print(popular_words('''
-When I was One,
-I had just begun.
-When I was Two,
-I was nearly new.
-''', ['i', 'was', 'three']))
+        When I was One,
+        I had just begun.
+        When I was Two,
+        I was nearly new.
+        ''', ['i', 'was', 'three']))
 
     # These "asserts" are used for self-checking and not for an auto-testing
     assert popular_words('''
-When I was One,
-I had just begun.
-When I was Two,
-I was nearly new.
-''', ['i', 'was', 'three']) == {
+        When I was One,
+        I had just begun.
+        When I was Two,
+        I was nearly new.
+        ''', ['i', 'was', 'three']) == {
         'i': 4,
         'was': 3,
         'three': 0

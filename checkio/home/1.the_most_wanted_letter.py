@@ -1,4 +1,4 @@
-"""
+﻿"""
 You are given a text, which contains different english letters and punctuation symbols. You should find the most frequent letter in the text. The letter returned must be in lower case.
 While checking for the most wanted letter, casing does not matter, so for the purpose of your search, "A" == "a". Make sure you do not count punctuation symbols, digits and whitespaces, only letters.
 
@@ -33,10 +33,18 @@ A text contains only ASCII symbols.
 
 """
 
+import re
 def checkio(text):
 
-    #replace this for solution
-    return 'a'
+    text = re.search('[a-zA-Z]+', text.replace(' ','')).group(0).lower()
+    norepeat = set(text)
+    num = 0
+    l = [ ]
+    for i in norepeat:
+        num = text.count(i)
+        l.append((i,num))
+    return sorted(l,key = lambda x:x[1],reverse = True)[0][0]
+    
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

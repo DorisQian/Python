@@ -1,4 +1,4 @@
-"""
+﻿"""
 If you have 50 different plug types, appliances wouldn't be available and would be very expensive. 
 But once an electric outlet becomes standardized, many companies can design appliances, and competition ensues, 
 creating variety and better prices for consumers. 
@@ -69,12 +69,13 @@ checkio([10、9、10、10、9、8])= =(10、9、10、10、9]
 
 
 def checkio(data):
-    #Your code here
-    #It's main function. Don't remove this function
-    #It's used for auto-testing and must return a result for check.  
-
-    #replace this for solution
-    return data
+    unique = []
+    for n in data:
+        if data.count(n) == 1:
+            unique.append(n)
+    for u in unique:
+        data.remove(u)
+    return data 
 
 #Some hints
 #You can use list.count(element) method for counting.
@@ -84,7 +85,7 @@ def checkio(data):
 
 if __name__ == "__main__":
     #These "asserts" using only for self-checking and not necessary for auto-testing
-    assert list(checkio([1, 2, 3, 1, 3])) == [1, 3, 1, 3], "1st example"
+#    assert list(checkio([1, 2, 3, 1, 3])) == [1, 3, 1, 3], "1st example"
     assert list(checkio([1, 2, 3, 4, 5])) == [], "2nd example"
     assert list(checkio([5, 5, 5, 5, 5])) == [5, 5, 5, 5, 5], "3rd example"
     assert list(checkio([10, 9, 10, 10, 9, 8])) == [10, 9, 10, 10, 9], "4th example"

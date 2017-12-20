@@ -1,4 +1,4 @@
-"""In this mission your task is to determine the popularity of certain words in the text.
+﻿"""In this mission your task is to determine the popularity of certain words in the text.
 
 At the input of your function are given 2 arguments: the text and the array of words the popularity of which you need to determine.
 
@@ -38,7 +38,7 @@ I was nearly new.
 from collections import OrderedDict
 def popular_words(text, words):
     # your code here
-    text = text.lower().split()
+    text = text.replace(',','').replace('.','').lower().split()
     dic = OrderedDict()
     for w in words:
         sum = 0 
@@ -67,6 +67,15 @@ if __name__ == '__main__':
         'i': 4,
         'was': 3,
         'three': 0
+    }
+    assert popular_words('''
+        When I was One,
+        I had just begun.
+        When I was Two,
+        I was nearly new.
+        ''',['one','two','three']) == {
+        "three":0,"two":1,"one":1
+
     }
     print("Coding complete? Click 'Check' to earn cool rewards!")
 

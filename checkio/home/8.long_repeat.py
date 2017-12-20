@@ -23,8 +23,11 @@ def long_repeat(line):
     """
         length the longest substring that consists of the same char
     """
-    # your code here
-    return 0
+    num = 0
+    for i in set(line):
+    	if num < line.count(i):
+    		num = line.count(i)
+    return num
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

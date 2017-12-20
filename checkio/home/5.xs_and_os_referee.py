@@ -57,7 +57,38 @@ x-o-referee
 """
 
 def checkio(game_result):
-    return "D" or "X" or "O"
+    """
+    ver = []
+    for n in range(3):
+        tuv =()
+        for m in (2,1,0):
+            tuv = tuv + (game_result[m][n],)
+        ver.append(tuv)
+    game_result = ver
+    print(game_result)
+    """
+    if game_result[0][0] == game_result[1][1] == game_result[2][2] != '.':
+        return game_result[0][0]
+    elif game_result[0][2] == game_result[1][1] == game_result[2][0] !='.':
+        return game_result[0][2]
+    else:
+    #判断横向是否成行
+        for i in range(3):
+            num = 0
+            for j in range(3):
+                if game_result[i][j] == game_result[i][0] != '.':
+                    num += 1
+                    if num == 3: 
+                        return game_result[i][0] 
+    #判断纵向是否成行
+        for n in range(3):
+            num2 = 0
+            for m in range(2,-1,-1):
+                if game_result[m][n] == game_result[0][n] != '.':
+                    num2 += 1
+                    if num2 == 3:
+                        return game_result[0][n]  
+    return 'D'
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

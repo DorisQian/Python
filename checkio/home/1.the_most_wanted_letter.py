@@ -43,7 +43,12 @@ def checkio(text):
     for i in norepeat:
         num = text.count(i)
         l.append((i,num))
-    return sorted(l,key = lambda x:x[1],reverse = True)[0][0]
+    first_list = sorted(l,key = lambda x:x[1],reverse = True)
+    l2 = [ ]
+    for li in first_list:
+        if li[1] == first_list[0][1]:
+            l2.append(li)
+    return sorted(l2,key = lambda x:x[0])[0][0]
     
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-"""
+﻿"""
 We have prepared a set of Editor's Choice Solutions. You will see them first after you solve the mission. 
 In order to see all other solutions you should change the filter.
 
@@ -52,9 +52,21 @@ checkio(QwErTy911poqqqq)= = True
 """
 
 def checkio(data):
-
-    #replace this for solution
-    return True or False
+    if len(data) < 10:
+        return False       
+    else:
+        upper=0
+        lower=0 
+        digit = 0
+        for i in data:
+            if i.isupper: upper += 1
+            elif i.islower: lower += 1
+            elif i.isdigit: digit += 1
+        print(upper,lower,digit)
+        if upper and lower and digit:
+            return True
+        else:
+            return False
 
 #Some hints
 #Just check all conditions

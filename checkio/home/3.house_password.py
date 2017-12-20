@@ -55,14 +55,11 @@ def checkio(data):
     if len(data) < 10:
         return False       
     else:
-        upper=0
-        lower=0 
-        digit = 0
+        upper = lower = digit = 0
         for i in data:
-            if i.isupper: upper += 1
-            elif i.islower: lower += 1
-            elif i.isdigit: digit += 1
-        print(upper,lower,digit)
+            if i.isupper(): upper += 1
+            elif i.islower(): lower += 1
+            elif i.isdigit(): digit += 1
         if upper and lower and digit:
             return True
         else:

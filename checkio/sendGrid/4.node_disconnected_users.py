@@ -59,13 +59,39 @@ GridLand的市长正在利用这个网络迅速向所有公民发送紧急邮件
 输入:四个参数。网络结构(如节点之间的连接列表)，每个节点上的用户(如命令中键的节点名和值是用户数量)、发送电子邮件的节点名称、崩溃节点列表。
 输出:Int .不接收电子邮件的用户数量。
 
+
 """
 
 def disconnected_users(net, users, source, crushes):
-    return 0
+    crulist=[]
+    srclist=[]
+    # 遍历net
+    for nodelist in net:
+        # 获取与crushes有关的node
+        if crushes[0] in nodelist:
+            if nodelist[0] != crushes[0]:crulist.append(nodelist[0])
+            else:crulist.append(nodelist[1])
+            print('crulist',crulist)
+        #获取与source有关的node
+        if source in nodelist:
+            if nodelist[0] != source:srclist.append(nodelist[0])
+            else:srclist.append(nodelist[1])
+            print('srclist',srclist)
+    # 去除包含在源相关节点中的crush节点,最终crush结果存入finlist
+    finlist = crushes
+    for i in crulist:
+            if i not in srclist :
+                finlist.append(i)
+            print('finlist',finlist)
+    #计算sum
+    sum =0 
+    for f in finlist:
+        sum += users[f]
+    return sum
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
+"""
     assert disconnected_users([
         ['A', 'B'],
         ['B', 'C'],
@@ -77,7 +103,7 @@ if __name__ == '__main__':
         'D': 40
     },
         'A', ['C']) == 70, "First"
-
+"""
     assert disconnected_users([
         ['A', 'B'],
         ['B', 'D'],

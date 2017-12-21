@@ -22,11 +22,29 @@ def is_stressful(subj):
     """
         recoognise stressful subject
     """
+    if subj.isupper():return True
+    elif subj.endswith('!!!'):return True
+    else:
+#    	newsubj=(''.join(w for w in subj if w.isalpha())).lower()
+    	newsubj = subj.replace(',',' ').lower().split()
+#    	print(newsubj)
+    	for i in newsubj:
+    		word = ''.join(w for w in i if w.isalpha())
+    		seq=sorted(set(word),key=word.index)
+    		wo = ''
+    		for w in seq:
+    			wo += w
+#    		print(wo)
+    		if wo in ('help','asap','urgent'):
+    			return True
     return False
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
     assert is_stressful("Hi") == False, "First"
     assert is_stressful("I neeed HELP") == True, "Second"
+    assert is_stressful("I need your,hE-lp")==True,"third"
+    assert is_stressful("hey!!!")== True,"forth"
+    assert is_stressful("i need your,HHHEEEEEEEEELLP") == True,"fivth"
     print('Done! Go Check it!')
 

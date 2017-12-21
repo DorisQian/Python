@@ -36,7 +36,9 @@ A text contains only ASCII symbols.
 import re
 def checkio(text):
 
-    text = re.search('[a-zA-Z]+', text.replace(' ','')).group(0).lower()
+    #text = re.search('[a-zA-Z]+', text.replace(' ','')).group(0).lower()
+    text = ''.join(w for w in text if w.isalpha())
+    print(text)
     norepeat = set(text)
     num = 0
     l = [ ]
@@ -53,12 +55,13 @@ def checkio(text):
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
-    assert checkio("Hello World!") == "l", "Hello test"
-    assert checkio("How do you do?") == "o", "O is most wanted"
-    assert checkio("One") == "e", "All letter only once."
-    assert checkio("Oops!") == "o", "Don't forget about lower case."
-    assert checkio("AAaooo!!!!") == "a", "Only letters."
-    assert checkio("abe") == "a", "The First."
-    print("Start the long test")
-    assert checkio("a" * 9000 + "b" * 1000) == "a", "Long."
+ #   assert checkio("Hello World!") == "l", "Hello test"
+ #   assert checkio("How do you do?") == "o", "O is most wanted"
+#    assert checkio("One") == "e", "All letter only once."
+#    assert checkio("Oops!") == "o", "Don't forget about lower case."
+ #   assert checkio("AAaooo!!!!") == "a", "Only letters."
+ #   assert checkio("abe") == "a", "The First."
+ #   print("Start the long test")
+#    assert checkio("a" * 9000 + "b" * 1000) == "a", "Long."
+    assert(checkio("Gregor then turned to look out the window at the dull weather.Nooooooooooo!!! Why!?!")) == 'o','o'
     print("The local tests are done.")

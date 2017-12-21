@@ -52,13 +52,18 @@ max(arg1,arg2，* args[，key])或min(arg1,arg2，* args[，key])
 
 def min(*args, **kwargs):
     key = kwargs.get("key", None)
-    return None
+    if len(args) == 1:
+        return sorted(args[0],key = key)[0]
+    else:
+        return sorted(args,key =key)[0]
 
 
 def max(*args, **kwargs):
     key = kwargs.get("key", None)
-    return None
-
+    if len(args) == 1:
+        return sorted(args[0],key = key,reverse=True)[0]
+    else:
+        return sorted(args,key =key,reverse = True)[0]
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

@@ -62,7 +62,20 @@ Precondition:
 """
 
 def safe_pawns(pawns):
-    return 0
+    safe1 = ()
+    num = 0
+
+    for tu in pawns :
+#    	print(chr(ord(tu[0])-1),int(tu[1])-1)
+    	safe1 = (chr(ord(tu[0])-1),int(tu[1])-1)
+    	safe2 = (chr(ord(tu[0])+1),int(tu[1])-1)
+    	sa1 = safe1[0]+str(safe1[1])
+    	sa2 = safe2[0]+str(safe2[1])
+ #   	print(safe1[0]+str(safe1[1]))
+    	if sa1 in pawns or sa2 in pawns:
+    		num += 1
+    return num
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

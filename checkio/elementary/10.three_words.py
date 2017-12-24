@@ -25,11 +25,15 @@ checkio("Hi") == False
 """
 
 def checkio(words):
+    '''
     sum = 0
     for word in words.split():
     	sum = (sum+1) * word.isalpha()
     	if sum == 3:return True
     else:return False
+    '''
+    d = words.split()
+    return any(''.join(value).isalpha() for value in zip(d,d[1:],d[2:]))
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

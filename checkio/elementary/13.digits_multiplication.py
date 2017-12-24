@@ -32,7 +32,10 @@ Precondition: 0 < number < 106
 
 def checkio(number):
 
-    return 1
+    num = 1
+    for i in str(number):
+    	num *= int(i) if int(i) else 1
+    return num
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

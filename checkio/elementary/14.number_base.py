@@ -40,6 +40,7 @@ def checkio(number):
     #It's using for auto-testing and must return a result for check.
 
     #replace this for solution
+    my solution is the best
     return str(number)
 
 #Some hints:

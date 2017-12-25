@@ -52,7 +52,18 @@ There are only brackets ("{}" "()" or "[]"), digits or operators ("+" "-" "*" "/
 """
 
 def checkio(expression):
-    return True or False
+    brackets = {'}':'{', ')':'(', ']':'['}
+    bracketl, bracketr = brackets.values(), brackets.keys()
+    arr = []
+    for s in expression:
+    	if s in bracketl:
+    		arr.append(s)
+    	elif s in bracketr:
+    		if arr and arr[-1] == brackets[s]:
+    			arr.pop()
+    		else:
+    			return False
+    return not arr
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

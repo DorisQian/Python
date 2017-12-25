@@ -18,6 +18,7 @@ Precondition: subject can be up to 100 letters
 先决条件:subject可以多达100个字母
 """
 
+
 def is_stressful(subj):
     """
         recoognise stressful subject
@@ -29,13 +30,13 @@ def is_stressful(subj):
     	newsubj = subj.replace(',',' ').lower().split()
 #    	print(newsubj)
     	for i in newsubj:
-    		word = ''.join(w for w in i if w.isalpha())
+    		word = ''.join(w for w in i if w.isalpha())           
     		seq=sorted(set(word),key=word.index)
     		wo = ''
     		for w in seq:
     			wo += w
 #    		print(wo)
-    		if wo in ('help','asap','urgent'):
+    		if wo in ('help','asp','urgent'):
     			return True
     return False
 
@@ -46,5 +47,6 @@ if __name__ == '__main__':
     assert is_stressful("I need your,hE-lp")==True,"third"
     assert is_stressful("hey!!!")== True,"forth"
     assert is_stressful("i need your,HHHEEEEEEEEELLP") == True,"fivth"
+    assert is_stressful("We need you A.S.A.P.!!") == True,"asap"
     print('Done! Go Check it!')
 

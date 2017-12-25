@@ -25,7 +25,6 @@ Precondition:
 
 两个二进制整数之间的汉明距离是不同的位(在维基百科上读到汉明距离的更多信息)。
 
-
 你得到了两个正数(N,M)的小数形式。你应该用二进制的形式计算这两个数之间的汉明距离。
 
 输入:两个作为整数的参数。
@@ -34,11 +33,17 @@ Precondition:
 如何使用:这是汉明码和其他线性纠错程序的基础。汉明距离作为一种测量遗传距离的方法被用于系统。在网格上(例如:棋盘)，汉明距离是移动从一个单元到另一个单元的最小移动次数。
 
 
-
 """
 
 def checkio(n, m):
-    return 0
+	'''
+	i = bin(n ^ m)
+	count = i.count('1')
+	return count
+	'''
+	return bin(n ^ m).count('1')
+    
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

@@ -91,7 +91,7 @@ def disconnected_users(net, users, source, crushes):
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
-"""
+
     assert disconnected_users([
         ['A', 'B'],
         ['B', 'C'],
@@ -103,7 +103,7 @@ if __name__ == '__main__':
         'D': 40
     },
         'A', ['C']) == 70, "First"
-"""
+
     assert disconnected_users([
         ['A', 'B'],
         ['B', 'D'],

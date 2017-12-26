@@ -63,7 +63,7 @@ GridLand的市长正在利用这个网络迅速向所有公民发送紧急邮件
 """
 
 def disconnected_users(net, users, source, crushes):
-    # jiang net zhong you zhijie guanxi de dian fangru jiedian duiying de zidian zhong
+    # net中将与每个节点有直接关系的节点存入字典中
     relation_dic = {}
     for net_node in net:
         dst_set = relation_dic.get(net_node[0], set())
@@ -74,10 +74,10 @@ def disconnected_users(net, users, source, crushes):
         dst_set.add(net_node[0])
         relation_dic[net_node[1]] = dst_set
 
-    # jisuan all shimin shuliang
+    # 所有市民的数量
     all_citizens = sum(users.values())
 
-    # jisuan suoyou yu yuan youguan de node ,zhidao bianlizuihou mudi zhong meiyou xinde keda ji quanzai lishi he crush zhong
+    # 计算所有与源有关的节点，直到遍历到最后的目的节点中，没有新的可达即全在历史和crush中
     dst_node = source
     history_nodes = []  
     no_effect_citizens = 0
@@ -113,7 +113,7 @@ if __name__ == '__main__':
         'D': 40
     },
         'A', ['C']) == 70, "First"
-    '''
+    
     assert disconnected_users([
         ['A', 'B'],
         ['B', 'D'],
@@ -144,4 +144,3 @@ if __name__ == '__main__':
         'C', ['A']) == 50, "Third"
 
     print('Done. Try to check now. There are a lot of other tests')
-'''

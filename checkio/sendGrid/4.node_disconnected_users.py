@@ -63,31 +63,41 @@ GridLand的市长正在利用这个网络迅速向所有公民发送紧急邮件
 """
 
 def disconnected_users(net, users, source, crushes):
-    crulist=[]
-    srclist=[]
-    # 遍历net
-    for nodelist in net:
-        # 获取与crushes有关的node
-        if crushes[0] in nodelist:
-            if nodelist[0] != crushes[0]:crulist.append(nodelist[0])
-            else:crulist.append(nodelist[1])
-            print('crulist',crulist)
-        #获取与source有关的node
-        if source in nodelist:
-            if nodelist[0] != source:srclist.append(nodelist[0])
-            else:srclist.append(nodelist[1])
-            print('srclist',srclist)
-    # 去除包含在源相关节点中的crush节点,最终crush结果存入finlist
-    finlist = crushes
-    for i in crulist:
-            if i not in srclist :
-                finlist.append(i)
-            print('finlist',finlist)
-    #计算sum
-    sum =0 
-    for f in finlist:
-        sum += users[f]
-    return sum
+    # jiang net zhong you zhijie guanxi de dian fangru jiedian duiying de zidian zhong
+    relation_dic = {}
+    for net_node in net:
+        dst_set = relation_dic.get(net_node[0], set())
+        dst_set.add(net_node[1])
+        relation_dic[net_node[0]] = dst_set
+
+        dst_set = relation_dic.get(net_node[1], set())
+        dst_set.add(net_node[0])
+        relation_dic[net_node[1]] = dst_set
+
+    # jisuan all shimin shuliang
+    all_citizens = sum(users.values())
+
+    # jisuan suoyou yu yuan youguan de node ,zhidao bianlizuihou mudi zhong meiyou xinde keda ji quanzai lishi he crush zhong
+    dst_node = source
+    history_nodes = []  
+    no_effect_citizens = 0
+    while dst_node:
+        stop_index = 0
+        final_flag = False
+        for node in dst_node:
+            if node in history_nodes or node in crushes:
+                stop_index += 1
+                if len(dst_node) == stop_index:
+                    final_flag = True
+                continue
+            else:
+                history_nodes.append(node)
+            no_effect_citizens += users[node]
+            dst_node = relation_dic[node]
+
+        if final_flag:
+            break
+    return all_citizens - no_effect_citizens
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
@@ -103,7 +113,7 @@ if __name__ == '__main__':
         'D': 40
     },
         'A', ['C']) == 70, "First"
-
+    '''
     assert disconnected_users([
         ['A', 'B'],
         ['B', 'D'],
@@ -134,3 +144,4 @@ if __name__ == '__main__':
         'C', ['A']) == 50, "Third"
 
     print('Done. Try to check now. There are a lot of other tests')
+'''

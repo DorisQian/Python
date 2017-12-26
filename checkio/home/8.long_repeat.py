@@ -37,8 +37,9 @@ def long_repeat(line):
                 num += 1
                 l.append((line[i],num+1))
             else:num = 0
-        return(sorted(l,key = lambda x:x[1],reverse = True)[0][1])
-    else:return 0
+        if l:
+            return(sorted(l,key = lambda x:x[1],reverse = True)[0][1])
+    return 0
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
@@ -46,5 +47,6 @@ if __name__ == '__main__':
     assert long_repeat('ddvvrwwwrggg') == 3, "Second"
     assert long_repeat("abababaab") ==2 ,"third"
     assert long_repeat("") ==0,"none"
+    assert long_repeat("abababa") == 0,"abababa"
     print('"Run" is good. How is "Check"?')
 

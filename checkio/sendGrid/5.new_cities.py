@@ -45,6 +45,7 @@ subnetworks([
 def subnetworks(net, crushes):
     relation_dic = {}
     for node in net:
+        '''
         node_set = relation_dic.get(node[0], set())
         node_set.add(node[1])
         relation_dic[node[0]] = node_set
@@ -52,20 +53,30 @@ def subnetworks(net, crushes):
         node_set = relation_dic.get(node[1], set())
         node_set.add(node[0])
         relation_dic[node[1]] = node_set
-    print(relation_dic)
+        '''
+        node_set = relation_dic.get(node[0],list())
+        node_set.append(node[1])
+        relation_dic[node[0]] = node_set
+
+        node_set = relation_dic.get(node[1], list())
+        node_set.append(node[0])
+        relation_dic[node[1]] = node_set
+
+#    print(relation_dic)
     relation_node = crushes
     history_node = []
     stop_flag = False
     while relation_node :
         for re_node in relation_node:
-            print(re_node)
-            if re_node in history_node and relation_dic[re_node] in history_node:
+#            print(re_node)
+            if re_node in history_node:
                 stop_flag = True
+                break
             else:
                 history_node.append(re_node)
-                print('history_node', history_node)
+ #               print('history_node', history_node)
             relation_node = relation_dic[re_node]
-            print(relation_node)
+#            print(relation_node)
         if stop_flag:
             break
 #    print(history_node)

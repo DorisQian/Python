@@ -61,10 +61,62 @@ most_crucial([
 }) == ['B']
 """
 def most_crucial(net, users):
-    return ['B']
+    #put the node relations in a dict
+    relation_dic = {}
+    for node in net:
+        node_set = relation_dic.get(node[0], set())
+        node_set.add(node[1])
+        relation_dic[node[0]] = node_set
+
+        node_set = relation_dic.get(node[1], set())
+        node_set.add(node[0])
+        relation_dic[node[1]] = node_set
+
+    # caculate every nodes happiness 
+    happiness_dic = {}
+    for src_node in relation_dic.keys():
+ #       print(src_node)
+        happiness_sum = 0
+        relation_node = relation_dic.get(src_node)
+#        print('relation_node', relation_node)
+        for user_node in relation_node:
+            happiness_sum += (users.get(user_node))
+            print(happiness_sum)
+        happiness_sum += users.get(src_node)
+#        print('happiness_sum', happiness_sum)
+        happiness_dic[src_node] = happiness_sum
+        print(happiness_dic)
+    # get the most happiness num 
+    most_happiness = max(happiness_dic.values())
+    print('most_happiness',most_happiness)
+
+    happiness_list = []
+    # get user_happiness num = most hapiness num node into a happiness_list
+    for happ_node in happiness_dic.keys():
+        print('happ_node',happ_node)
+        if happiness_dic[happ_node] == most_happiness:
+            happiness_list.append(happ_node)
+            print('happiness_list', happiness_list)
+    # if happiness_list has only node ,return it 
+    if len(happiness_list) == 1:
+        return happiness_list
+    # renturn n ge happine node which users_happiness itself bigger
+    else:
+        final_list = []
+        for i in range(len(happiness_list) -1) :
+            if users.get(happiness_list[i +1 ]) > users.get(happiness_list[i]):
+                final_list.append(happiness_list[i+1])
+            if users.get(happiness_list[i +1 ]) < users.get(happiness_list[i]):
+                final_list.append(happiness_list[i]) 
+            if users.get(happiness_list[i +1 ]) == users.get(happiness_list[i]):
+                final_list.append(happiness_list[i +1]).append(happiness_list[i])
+        print(final_list)
+        return final_list
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
+    '''
     assert most_crucial([
             ['A', 'B'],
             ['B', 'C']
@@ -73,14 +125,14 @@ if __name__ == '__main__':
             'B': 10,
             'C': 10
         }) == ['B'], 'First'
-
+    
     assert most_crucial([
             ['A', 'B']
         ],{
             'A': 20,
             'B': 10
         }) == ['A'], 'Second'
-
+    '''
     assert most_crucial([
             ['A', 'B'],
             ['A', 'C'],
@@ -93,7 +145,7 @@ if __name__ == '__main__':
             'D': 10,
             'E': 10
         }) == ['A'], 'Third'
-
+    '''
     assert most_crucial([
             ['A', 'B'],
             ['B', 'C'],
@@ -104,6 +156,6 @@ if __name__ == '__main__':
             'C': 10,
             'D': 20
         }) == ['B'], 'Forth'
-
+    '''
     print('Nobody expected that, but you did it! It is time to share it!')
 

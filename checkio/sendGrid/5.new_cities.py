@@ -45,43 +45,35 @@ subnetworks([
 def subnetworks(net, crushes):
     relation_dic = {}
     for node in net:
-        '''
-        node_set = relation_dic.get(node[0], set())
-        node_set.add(node[1])
-        relation_dic[node[0]] = node_set
-
-        node_set = relation_dic.get(node[1], set())
-        node_set.add(node[0])
-        relation_dic[node[1]] = node_set
-        '''
         node_set = relation_dic.get(node[0],list())
         node_set.append(node[1])
         relation_dic[node[0]] = node_set
 
         node_set = relation_dic.get(node[1], list())
-        node_set.append(node[0])
+        node_set.append(node[0]) 
         relation_dic[node[1]] = node_set
 
-#    print(relation_dic)
-    relation_node = crushes
-    history_node = []
-    stop_flag = False
-    while relation_node :
-        for re_node in relation_node:
-#            print(re_node)
-            if re_node in history_node:
-                stop_flag = True
-                break
-            else:
-                history_node.append(re_node)
- #               print('history_node', history_node)
-            relation_node = relation_dic[re_node]
-#            print(relation_node)
-        if stop_flag:
-            break
-#    print(history_node)
-    return len(history_node) - 1
-        
+    crushes_node = crushes
+    relation_node = [ ]
+    num = 0
+    # 取出crush节点在dict中的直接关联节点放到relation_node中
+    for cru in crushes_node:
+        for cru_relation in relation_dic[cru]:
+            if cru_relation not in crushes_node:
+                relation_node.append(cru_relation)
+ #   print(relation_node)
+
+    #如果与crush相关的直接节点只有一个，则直接返回1
+    if len(relation_node) == 1:
+        return 1
+    else:
+        for node in relation_node:
+            valuelist = relation_dic[node]
+            for value in valuelist:
+                if value in relation_node and value not in crushes_node:
+                    num += 1
+        return len(relation_node) - num/2
+    
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
@@ -89,8 +81,7 @@ if __name__ == '__main__':
             ['A', 'B'],
             ['B', 'C'],
             ['C', 'D']
-        ], ['B']) == 2, "First"
-    '''
+        ], ['B']) == 2, "First"    
     assert subnetworks([
             ['A', 'B'],
             ['A', 'C'],
@@ -102,5 +93,12 @@ if __name__ == '__main__':
             ['B', 'C'],
             ['C', 'D']
         ], ['C', 'D']) == 1, "Third"
+    assert subnetworks([
+            ["A", "B"],
+            ["A", "C"],
+            ["A", "D"],
+            ["D", "F"],
+            ["B", "C"]
+        ],["A"]) == 2, "Fourth"
     print('Done! Check button is waiting for you!')
-    '''
+    

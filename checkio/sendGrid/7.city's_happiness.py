@@ -72,51 +72,48 @@ def most_crucial(net, users):
         node_set.add(node[0])
         relation_dic[node[1]] = node_set
 
-    # caculate every nodes happiness 
+    # 获取个节点的happiness值，如果关联节点的关联value个数为1 ，则直接平方，并写入history，如果大于一则剩下的节点减去history节点总和平方
     happiness_dic = {}
-    for src_node in relation_dic.keys():
- #       print(src_node)
-        happiness_sum = 0
-        relation_node = relation_dic.get(src_node)
-#        print('relation_node', relation_node)
-        for user_node in relation_node:
-            happiness_sum += (users.get(user_node))
-            print(happiness_sum)
-        happiness_sum += users.get(src_node)
-#        print('happiness_sum', happiness_sum)
-        happiness_dic[src_node] = happiness_sum
-        print(happiness_dic)
-    # get the most happiness num 
-    most_happiness = max(happiness_dic.values())
-    print('most_happiness',most_happiness)
+    for node in users.keys():
+#        print(node,'node')
+        history_node = []
+        renode = []
+        num, sum = 0, 0
+        happynode = list(users.keys())
+        happynode.remove(node)
+#        print('happynode:', happynode)
+        for relation_node in relation_dic[node]:
+#            print(relation_node, 'relation_node')
+            if len(relation_dic[relation_node]) == 1:
+                num += users[relation_node] ** 2
+                history_node.append(relation_node)
+#                print(history_node, 'history_node')
 
-    happiness_list = []
-    # get user_happiness num = most hapiness num node into a happiness_list
-    for happ_node in happiness_dic.keys():
-        print('happ_node',happ_node)
-        if happiness_dic[happ_node] == most_happiness:
-            happiness_list.append(happ_node)
-            print('happiness_list', happiness_list)
-    # if happiness_list has only node ,return it 
-    if len(happiness_list) == 1:
-        return happiness_list
-    # renturn n ge happine node which users_happiness itself bigger
-    else:
-        final_list = []
-        for i in range(len(happiness_list) -1) :
-            if users.get(happiness_list[i +1 ]) > users.get(happiness_list[i]):
-                final_list.append(happiness_list[i+1])
-            if users.get(happiness_list[i +1 ]) < users.get(happiness_list[i]):
-                final_list.append(happiness_list[i]) 
-            if users.get(happiness_list[i +1 ]) == users.get(happiness_list[i]):
-                final_list.append(happiness_list[i +1]).append(happiness_list[i])
-        print(final_list)
-        return final_list
+        if len(history_node):
+            for n in history_node:
+                happynode.remove(n)
+#                print(happynode,'renode')
+        if len(happynode):
+            for i in happynode:
+                sum += users[i]
+            num += sum ** 2 + users[node]
+#            print(num)
+        else:num += users[node]
+        happiness_dic[node] = num
+#    print(happiness_dic)
+
+    # 取出value最小的key值
+    final = []
+    minhappy = min(happiness_dic.values())
+    for key in happiness_dic.keys():
+        if happiness_dic[key] == minhappy:
+            final.append(key)
+    return final
 
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
-    '''
+    
     assert most_crucial([
             ['A', 'B'],
             ['B', 'C']
@@ -132,7 +129,7 @@ if __name__ == '__main__':
             'A': 20,
             'B': 10
         }) == ['A'], 'Second'
-    '''
+    
     assert most_crucial([
             ['A', 'B'],
             ['A', 'C'],
@@ -145,7 +142,7 @@ if __name__ == '__main__':
             'D': 10,
             'E': 10
         }) == ['A'], 'Third'
-    '''
+    
     assert most_crucial([
             ['A', 'B'],
             ['B', 'C'],
@@ -156,6 +153,14 @@ if __name__ == '__main__':
             'C': 10,
             'D': 20
         }) == ['B'], 'Forth'
-    '''
+    assert most_crucial([
+        ["A","B"],
+        ["B","C"],
+        ["C","A"]
+        ],{
+        "A":10,
+        "C":10,
+        "B":5
+        }) == ['A','C'] or ['C', 'A'], 'fith'
     print('Nobody expected that, but you did it! It is time to share it!')
 

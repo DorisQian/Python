@@ -84,8 +84,45 @@ all(all(0 < x < 10 for x in row) for row in matrix)
 如何使用:这个概念对于需要检测相同元素的不同行(例如，匹配3个游戏)的游戏非常有用。该算法可用于基本模式识别。
 """
 def checkio(matrix):
-    #replace this for solution
-    return True or False
+    
+    row = matrix
+    col = zip(*row)
+ #   line = row + list(col)
+ #   print(line)
+    
+    diag = []
+    flag = len(row) - 3
+    length = len(row)
+    
+    while flag:
+        for i, r in enumerate(row):
+            diag = map(''.join, zip(*[r[i], r[length - i]]))
+            line += list(diag)
+        length -= 1
+        flag -= 1
+    
+    #对每一行的值进行count，取出大于3的，如果i，*4 in 行，则放回true
+    for li in line:
+        # 将list转换成字符串s
+        s = ''
+        for l in li :
+            s = s +str(l)
+ 
+        # 取出sount大于3的放入list n中
+        n = []
+        for i in li:
+            if li.count(i) > 3 and i not in n:
+                n.append(i)
+        
+        if n:
+            print (n)
+            for mun in n:
+                if (str(mun) * 4) in s:
+                    print('test')
+                    return True               
+    else:
+        return False
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

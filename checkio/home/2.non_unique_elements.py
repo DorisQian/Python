@@ -67,20 +67,13 @@ checkio([10、9、10、10、9、8])= =(10、9、10、10、9]
 #Your optional code here
 #You can import some modules or create additional functions
 
-
+from collections import Counter
 def checkio(data):
-    #Your code here
-    #It's main function. Don't remove this function
-    #It's used for auto-testing and must return a result for check.  
-
-    #replace this for solution
-    return data
-
-#Some hints
-#You can use list.count(element) method for counting.
-#Create new list with non-unique elements
-#Loop over original list
-
+    
+    return (i for i in data if data.count(i) >1 )
+    return filter(lambda x : data.count(x) > 1, data)
+    counter = Counter(data)
+    return (item for item in data if counter[item] > 1)
 
 if __name__ == "__main__":
     #These "asserts" using only for self-checking and not necessary for auto-testing

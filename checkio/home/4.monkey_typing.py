@@ -54,7 +54,8 @@ all(3 ≤ len(w) and w.islower() and w.isalpha for w in words)
 """
 
 def count_words(text, words):
-    return 0
+    return sum(x in text.lower() for x in words)
+    
 
 
 if __name__ == '__main__':

@@ -32,12 +32,16 @@ A text contains only ASCII symbols.
 输出:小写字母中最频繁的字母作为字符串。
 
 """
-
+from collections import Counter
+import string
 def checkio(text):
 
-    #replace this for solution
-    return 'a'
+    return max(string.ascii_lowercase, key = text.lower().count)
 
+    count = Counter(x for x in text.lower() if x.isalpha())
+    num = max(count.values())
+    return(sorted([x for (x,y) in count.items() if y == num ])[0])
+    
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
     assert checkio("Hello World!") == "l", "Hello test"

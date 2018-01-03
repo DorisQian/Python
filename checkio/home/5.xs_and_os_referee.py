@@ -57,7 +57,18 @@ x-o-referee
 """
 
 def checkio(game_result):
-    return "D" or "X" or "O"
+    
+    row = game_result
+    col = map(''.join, zip(*row))
+    diag = map(''.join, zip(*[(r[i],r[2-i]) for i, r in enumerate(game_result)]))
+    line = row + list(col) + list(diag)
+
+    if 'XXX' in line:
+        return 'X'
+    elif 'OOO' in line:
+        return 'O'
+    else:
+        return 'D'
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

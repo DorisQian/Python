@@ -50,15 +50,27 @@ checkio(QwErTy911poqqqq)= = True
 如何使用:如果你担心你的应用或服务的安全性，你可以检查你的用户的密码是否复杂。您可以使用这些技能要求您的用户密码满足更多的条件
 (标点或unicode)。
 """
-
+import re
 def checkio(data):
-
-    #replace this for solution
-    return True or False
-
-#Some hints
-#Just check all conditions
-
+    '''
+    return lambda x : not(
+        len(x) < 10
+        or x.isdigit()
+        or x.isalpha()
+        or x.islower()
+        or x.isupper()
+        )
+    '''
+    if len(data) < 10:
+        return False
+    if not re.search('[0-9]', data):
+        return False
+    if not re.search('[a-z]', data):
+        return False
+    if not re.search('[A-Z]', data):   
+        return False
+    else:
+        return True
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

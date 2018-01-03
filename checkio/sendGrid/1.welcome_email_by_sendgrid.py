@@ -14,7 +14,7 @@ send_email('somebody@gmail.com', 'Some Body')
 邮件的主题应该是“Welcome”，而body只是“Hi，{name}”({name}应该被用户名替换)
 输入:两个参数。电子邮件和用户名
 输出:没有。你应该发一封电子邮件。你不需要返回任何东西。
-"""
+
 
 import sendgrid
 from sendgrid.helpers.mail import Email,  Mail, Content
@@ -32,4 +32,26 @@ if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
     send_email('somebody@gmail.com', 'Some Body')
     print('Done')
+"""
 
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+
+mail_host = 'smtp.sina.com'
+mail_user = 'doris_test'
+mail_pwd = 'admin@123'
+
+sender = 'doris_test@sina.com'
+receiver = '1609047552@qq.com'
+
+message = MIMEText('Hi,  関亍未来丶', 'plain', 'utf-8')
+message['From'] = Header('doris_test@sina.com')
+message['To'] = Header('関亍未来丶', 'utf-8')
+message['Subject'] = Header('checkio sendGrid-1', 'utf-8')
+
+server = smtplib.SMTP(mail_host, 25)
+server.set_debuglevel(1)
+server.login(mail_user, mail_pwd)
+server.sendmail(sender, receiver, message.as_string())
+server.quit()

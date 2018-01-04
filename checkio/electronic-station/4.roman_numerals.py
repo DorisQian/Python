@@ -42,13 +42,13 @@ I,II,III,IV,V,VI,VII,VIII,IX和X。
 罗马数字系统是十进制的，但不是直接的位置，也不包括零。罗马数字是基于这七个符号的组合:
 数值
 
-我1(一份)
-5 v(quinque)
-x 10(十的)
-l 50(quinquaginta)
-c 100(百)
-d 500(quingenti)
-m 1,000(千)
+I 1 (unus)
+V 5 (quinque)
+X 10 (decem)
+L 50 (quinquaginta)
+C 100 (centum)
+D 500 (quingenti)
+M 1,000 (mille)
 关于罗马数字的更多信息可以在维基百科上找到。
 对于这个任务，您应该使用从1到3999的指定整数值返回一个罗马数字。
 
@@ -60,9 +60,31 @@ m 1,000(千)
 
 def checkio(data):
 
-    #replace this for solution
-    return ""
-
+  ro_dic = { 
+      1 : 'I', 
+      5 : 'V',
+      10 : 'X',
+      50 : 'L',
+      100 : 'C',
+      500 : 'D',
+      1000 : 'M'
+  }
+  li = [1000, 100, 10, 1]
+  num = data
+  roman = ''
+  for n in li:
+    tu = divmod(num, n)
+    if tu[0] >= 5 and tu[0] != 9:
+      roman += ro_dic[5*n] + ro_dic[n] * (tu[0] - 5)
+    if tu[0] == 4:
+      roman += ro_dic[n] + ro_dic[5*n]
+    if tu[0] == 9:
+      roman += ro_dic[n] + ro_dic[10*n]
+    if tu[0] < 4:
+      roman += ro_dic[n] * tu[0]
+    num = tu[1]
+  print(roman)
+  return roman
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
     assert checkio(6) == 'VI', '6'

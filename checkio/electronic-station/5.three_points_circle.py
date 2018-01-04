@@ -45,12 +45,38 @@ three_points_circle
 先决条件:所有三个给定的点都不在一条线上。
 """
 
+from math import sqrt
+from sympy import *
 def checkio(data):
+	li = []
+	for i in (1, 7, 13):
+		li.append((int(data[i]),int(data[i+2])))
+	print(li)
+	'''
+	n = 2 * (li[1][0] - li[0][0])
+	m = 2 * (li[1][1] - li[0][1])
+	f = li[1][0] ** 2 + li[1][1] ** 2 - li[0][0] ** 2 - li[0][1] ** 2
 
-    #replace this for solution
-    return ""
+	i = 2 * (li[2][0] - li[1][0])
+	j = 2 * (li[2][1] - li[1][1])
+	k = li[2][0] ** 2 + li[2][1] ** 2 - li[1][0] ** 2 - li[1][1] ** 2
 
+	b = (k * m - f * i) / (j * m - n * i)
+	a = (j * f - n * k) / (j * m - n * i)
+	r = sqrt((li[0][0] - a) ** 2 + (li[0][1] - b) ** 2)
+
+	print('(x-%.2f)^2+(y-%.2f)^2=%.2f^2' % (a,b,r))
+	return '(x-%d)^2+(y-%d)^2=%0.2f^2' % (a,b,r)
+	'''
+	a , b , r = symbols('a b r')
+	ro = solve([(li[0][0] - a)**2 + (li[0][1]-b)**2 - r**2, (li[1][0]-a)**2 + (li[1][1]-b)**2 - r**2, \
+		(li[2][0]-a)**2 + (li[2][1]-b)**2 - r**2],[a,b,r])
+	for n in ro:
+		if r > 0:
+			result = n
+	print(result)
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
     assert checkio("(2,2),(6,2),(2,6)") == "(x-4)^2+(y-4)^2=2.83^2"
     assert checkio("(3,7),(6,9),(9,7)") == "(x-6)^2+(y-5.75)^2=3.25^2"
+    

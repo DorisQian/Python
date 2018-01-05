@@ -43,17 +43,8 @@ three_points_circle
 如何使用它:这个方程,也被称为圆的方程,来自勾股定理在应用到任意点在一个循环:半径是一个直角三角形的斜边长度的其他方面x和y−−b。当然,你可以使用这个概念你数学软件,但我们只是想提醒如何了不起的圈子。
 
 先决条件:所有三个给定的点都不在一条线上。
-"""
 
-from math import sqrt
-from sympy import *
-def checkio(data):
-	li = []
-	for i in (1, 7, 13):
-		li.append((int(data[i]),int(data[i+2])))
-	print(li)
-	'''
-	n = 2 * (li[1][0] - li[0][0])
+n = 2 * (li[1][0] - li[0][0])
 	m = 2 * (li[1][1] - li[0][1])
 	f = li[1][0] ** 2 + li[1][1] ** 2 - li[0][0] ** 2 - li[0][1] ** 2
 
@@ -67,14 +58,30 @@ def checkio(data):
 
 	print('(x-%.2f)^2+(y-%.2f)^2=%.2f^2' % (a,b,r))
 	return '(x-%d)^2+(y-%d)^2=%0.2f^2' % (a,b,r)
-	'''
+"""
+
+from math import sqrt
+from sympy import *
+init_printing(use_unicode=True)
+def checkio(data):
+	li = []
+	for i in (1, 7, 13):
+		li.append((int(data[i]),int(data[i+2])))
+
 	a , b , r = symbols('a b r')
 	ro = solve([(li[0][0] - a)**2 + (li[0][1]-b)**2 - r**2, (li[1][0]-a)**2 + (li[1][1]-b)**2 - r**2, \
 		(li[2][0]-a)**2 + (li[2][1]-b)**2 - r**2],[a,b,r])
 	for n in ro:
-		if r > 0:
-			result = n
-	print(result)
+		if n[2] > 0:
+			li = n
+	l = [a,b,r]
+	dic = {}
+	for i, k in enumerate(l):
+		dic[k] = str(round((li[i]).evalf(),2)).rstrip('0').rstrip('.')
+	print(dic)
+
+	return '(x-%s)^2+(y-%s)^2=%s^2' % (dic[a],dic[b],dic[r])
+	
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
     assert checkio("(2,2),(6,2),(2,6)") == "(x-4)^2+(y-4)^2=2.83^2"

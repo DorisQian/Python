@@ -49,16 +49,18 @@ max(arg1,arg2，* args[，key])或min(arg1,arg2，* args[，key])
 
 先决条件:所有测试用例都是正确的，功能不需要引发异常。
 """
+#i think my thought is right ,but still need simplify the code like this
+def sor(args, key, reverse):
+    if len(args) == 1:
+        args = iter(args[0])
+    return sorted(args, key = key, reverse= reverse)[0]
 
-def min(*args, **kwargs):
-    key = kwargs.get("key", None)
-    return None
+def min(*args, key = None):
+    return sor(args, key, False)
 
 
-def max(*args, **kwargs):
-    key = kwargs.get("key", None)
-    return None
-
+def max(*args, key = None):
+    return sor(args, key, True)
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

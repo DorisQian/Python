@@ -64,7 +64,12 @@ Precondition:
 """
 
 def safe_pawns(pawns):
-    return 0
+    # mine is the first of the best, but still need to combine the words,let it be small,next give a other one
+    def is_safe(p):
+    	row, rol = ord(p[0]), int(p[1])
+    	return chr(row-1)+str(rol-1) in pawns or chr(row+1)+str(rol-1) in pawns
+
+    return sum(is_safe(p) for p in pawns)
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

@@ -50,8 +50,16 @@ There are only brackets ("{}" "()" or "[]"), digits or operators ("+" "-" "*" "/
 
 
 """
-
+# this is sooooo clever!!!!
 def checkio(expression):
+    s = ''.join(c for c in expression if c in '([{}])')
+    print(s)
+    while s:
+        s0, s = s, s.replace('()', '').replace('[]', '').replace('{}', '')
+        print('s0:',s0,'s:',s)
+        if s == s0:
+            return False
+    return True
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
@@ -61,3 +69,4 @@ if __name__ == '__main__':
     assert checkio("[1+1]+(2*2)-{3/3}") == True, "Different operators"
     assert checkio("(({[(((1)-2)+3)-3]/3}-3)") == False, "One is redundant"
     assert checkio("2+3") == True, "No brackets, no problem"
+    assert checkio("([2-3}+(5-6)-{6+5})") == False

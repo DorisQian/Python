@@ -36,6 +36,8 @@ Precondition:
 """
 
 def checkio(n, m):
+	#mine is the best
+	return bin(n ^ m).count('1')
     
 
 

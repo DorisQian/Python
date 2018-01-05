@@ -18,14 +18,11 @@ long_repeat('ddvvrwwwrggg') == 3
 输出:Int。
 
 """
-
+from itertools import groupby
 def long_repeat(line):
-    """
-        length the longest substring that consists of the same char
-    """
-    # your code here
-    return 0
 
+	return max(len(list(s)) for key,s in groupby(line))
+	
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
     assert long_repeat('sdsffffse') == 4, "First"

@@ -53,8 +53,20 @@ m 1,000(千)
 """
 def reverse_roman(roman_string):
 
-    #replace this for solution
-    return 0
+	ro_dic = { 
+      'I' : 1, 
+      'V' : 5,
+      'X' : 10,
+      'L' : 50,
+      'C' : 100,
+      'D' : 500,
+      'M' : 1000
+    } 
+
+    ro_list = ['I' ,'V' ,'X' ,'L' ,'C' ,'D' ,'M']
+    index, ro = enumerate(ro_list)
+    for rom in len(roman_string):
+    	roman_string[rom] < 
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

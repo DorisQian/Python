@@ -59,9 +59,44 @@ most_crucial([
     'C': 10,
     'D': 20
 }) == ['B']
+
+思路：将net中所有节点取出，存入到nodes中，将crush节点从nodes中去除，存入subnodes，并将cursh的值存入node_value中，接下来要求
+subnodes中节点的计算值。单独从subnodes中取出一个节点，进入循环，得到与该节点直接关联的各个点，然后各个点再循环寻找直接关联，
+最终结果存入vistied中，进行加和平方，然后进行计算过的节点从subnodes中去除，二层循环退出后，一层循环继续（用subnodes来作为循环
+条件），其中news存的是关联节点，即要加和平方的点，stack为第二层循环判断，存的是关联节点，循环的是关联节点再寻找关联，直到
+stack为空停止
 """
+
+from itertools import chain
+
+
 def most_crucial(net, users):
-    return ['B']
+    
+    nodes = set(chain.from_iterable(net))
+    net = set(map(frozenset,net))#将net转变为set，先转成可哈希
+
+    def node_value(crushnode):
+        subnodes = nodes - {crushnode}
+        subnet = set(n for n in net if crushnode not in n)
+        node_value = users[crushnode]
+
+        while subnodes:
+            node = subnodes.pop()
+            visit = {node}
+            stack = {node}
+            while stack:
+                node = stack.pop()
+                news = set(c for c in subnodes if frozenset([c, node]) in subnet)
+                stack |= news - visit
+                visit |= news 
+                subnodes -= news  
+            node_value += sum(users[v] for v in visit) ** 2
+        return node_value
+
+    value = {node: node_value(node) for node in nodes}
+    return [no for no, val in value.items() if val == min(value.values())]
+
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

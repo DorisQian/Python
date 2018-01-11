@@ -37,7 +37,16 @@ subnetworks([
 """
 
 def subnetworks(net, crushes):
-    return 0
+    a = ''
+    for nets in net:
+        for node in nets:
+            if node not in a:
+                a += node
+    b = 0
+    for n1, n2 in net:
+        if n1 not in crushes and n2 not in crushes:
+            b += 1
+    return len(a) - len(crushes) - b
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

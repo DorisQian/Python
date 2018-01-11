@@ -1,4 +1,4 @@
-"""
+﻿'''
 Welcome to the GridLand. All the citizens here are connected through the global internal network because the main way for communication here is via email. Every new district of the city starts with building a node – center of the district. All the citizens will be connected to this node in order to send and receive emails. All nodes of GridLand are connected so one node can send emails between connected nodes. In such a way, no matter how big the city is all users can send messages between each other as long as all of the nodes are connected.
 
 The Mayor of GridLand is using this network to quickly send emergency emails to all citizens when necessary. But the system is not perfect. When one of city nodes gets crushed it may leave the citizens of this node district disconnected from these emergency emails. It may also leave districts around the crushed node disconnected if their nodes do not have other ways to connect. To resolve this occurrence, the Mayor uses mail-pigeons – an old method of sending mail that was invented before the global internal network. All of the connected citizens still connected to the network received the emergency emails, but the disconnected citizens receive their from these pigeons.
@@ -59,10 +59,43 @@ GridLand的市长正在利用这个网络迅速向所有公民发送紧急邮件
 输入:四个参数。网络结构(如节点之间的连接列表)，每个节点上的用户(如命令中键的节点名和值是用户数量)、发送电子邮件的节点名称、崩溃节点列表。
 输出:Int .不接收电子邮件的用户数量。
 
-"""
+思路：先将断点从net中刨去，相当于网络中不存在断点和至于断点有关的节点，由此得出一个新的net字典，
+     next_node:将与源点相关的点，放入其中
+     live_node:源点和与其相关点的集合
+     进入next_node循环，将所有关联节点的相关节点算出，放入live中，最后得出所有live的点，再用减法
+'''
+
+
+from collections import defaultdict
+
 
 def disconnected_users(net, users, source, crushes):
-    return 0
+
+    all_live = sum(users.values())
+    
+    if source in crushes:
+        return all_live
+
+    net_dic = defaultdict(set)
+    for n1, n2 in net:
+        if not set(crushes) & {n1, n2}:#断点与两点没有交集
+            net_dic[n1] |= {n2}
+            net_dic[n2] |= {n1}
+
+    next_node = net_dic[source]
+    live_node = next_node | set(source)
+
+    while next_node:
+        source_node = next_node
+        next_node = set()
+        for n in source_node:
+            next_node |= set(net_dic[n])
+
+        live_node |= next_node
+        next_node -= live_node
+
+    return all_live - sum(users[n] for n in live_node)
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
@@ -77,7 +110,7 @@ if __name__ == '__main__':
         'D': 40
     },
         'A', ['C']) == 70, "First"
-
+    
     assert disconnected_users([
         ['A', 'B'],
         ['B', 'D'],
@@ -106,5 +139,5 @@ if __name__ == '__main__':
         'F': 10
     },
         'C', ['A']) == 50, "Third"
-
+    
     print('Done. Try to check now. There are a lot of other tests')

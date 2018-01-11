@@ -53,7 +53,7 @@ m 1,000(千)
 """
 def reverse_roman(roman_string):
 
-	ro_dic = { 
+    ro_dic = { 
       'I' : 1, 
       'V' : 5,
       'X' : 10,
@@ -63,10 +63,27 @@ def reverse_roman(roman_string):
       'M' : 1000
     } 
 
+    num = 0 
     ro_list = ['I' ,'V' ,'X' ,'L' ,'C' ,'D' ,'M']
-    index, ro = enumerate(ro_list)
-    for rom in len(roman_string):
-    	roman_string[rom] < 
+    rod = {}
+    for index, ro in enumerate(ro_list):
+    	rod[ro] = index
+
+    switch  = False
+    for rom in range(len(roman_string) - 1):
+    	if switch:
+    		switch = False
+    		continue
+    	if rod.get(roman_string[rom]) < rod.get(roman_string[rom+1]):
+    		num += ro_dic.get(roman_string[rom+1]) - ro_dic.get(roman_string[rom])
+    		switch = True
+    	else:
+    		num += ro_dic.get(roman_string[rom]) 
+
+    if rod.get(roman_string[-1]) <= rod.get(roman_string[-2]):
+    	num += ro_dic.get(roman_string[-1])
+    return num
+    		
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

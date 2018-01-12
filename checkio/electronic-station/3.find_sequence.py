@@ -83,7 +83,7 @@ all(all(0 < x < 10 for x in row) for row in matrix)
 
 如何使用:这个概念对于需要检测相同元素的不同行(例如，匹配3个游戏)的游戏非常有用。该算法可用于基本模式识别。
 """
-
+import copy
 
 def checkio(matrix):
 
@@ -92,18 +92,53 @@ def checkio(matrix):
     length = len(row) - 1
     diag = zip(*[(r[i], r[length - i]) for i, r in enumerate(row)])
     line = row + list(col) + list(diag)
-    '''
-    diag = []
-    flag = len(row) - 3
-    length = len(row) - 1
-#    n = len(row) - 4
+
+    flag = len(row) - 4
+    ma1 = copy.deepcopy(row)
+    ma2 = copy.deepcopy(row)
+    ma3 = copy.deepcopy(row)
+    ma4 = copy.deepcopy(row)
     while flag:
-        for n in range(len(row) - 3):
-            diag = zip(*[(r[i + n], r[length - i - n]) for i, r in enumerate(row)])
-            line = line + list(diag)
+
+        # 取左上角矩形
+        ma1.pop()
+        mat1 = []
+        for li in ma1:
+            li.pop()
+            mat1.append(li)
+        length = len(mat1) -1
+        diag1 = zip(*[(r[i],r[length -i]) for i, r in enumerate(mat1)])
+
+        #取右上角矩形
+        ma2.pop()
+        mat2 = []
+        for li in ma2:
+            del li[0]
+            mat2.append(li)
+        length = len(mat2) -1
+        diag2 = zip(*[(r[i],r[length -i]) for i, r in enumerate(mat2)])
+
+        #取左下角矩形
+        del ma3[0]
+        mat3 = []
+        for li in ma3:
+            li.pop()
+            mat3.append(li)
+        length = len(mat3) -1
+        diag3 = zip(*[(r[i],r[length -i]) for i, r in enumerate(mat3)])
+
+        #取右下角矩形
+        del ma4[0]
+        mat4 = []
+        for li in ma4:
+            del li[0]
+            mat4.append(li)
+        length = len(mat4) -1
+        diag4 = zip(*[(r[i],r[length -i]) for i, r in enumerate(mat4)])
+
         flag -= 1
-    print(line)
-    '''
+        line += list(diag1) + list(diag2) + list(diag3) + list(diag4)
+
     # 对每一行的值进行count，取出大于3的，如果i，*4 in 行，则放回true
     for li in line:
         # 将list转换成字符串s
@@ -118,10 +153,10 @@ def checkio(matrix):
                 li2.append(i)
 
         if li2:
-            print(li2)
+ #           print(li2)
             for mun in li2:
                 if (str(mun) * 4) in s:
-                    print('test')
+                #    print('test')
                     return True
     else:
         return False
@@ -149,6 +184,7 @@ if __name__ == '__main__':
         [5, 5, 5, 5, 5],
         [1, 1, 3, 1, 1]
     ]) == True, "Long Horizontal"
+    
     assert checkio([
         [7, 1, 1, 8, 1, 1],
         [1, 1, 7, 3, 1, 5],
@@ -157,3 +193,4 @@ if __name__ == '__main__':
         [4, 6, 5, 1, 3, 1],
         [1, 1, 9, 1, 2, 1]
     ]) == True, "Diagonal"
+    

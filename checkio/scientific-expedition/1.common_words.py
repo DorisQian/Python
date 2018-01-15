@@ -33,10 +33,20 @@ All words consist of lowercase latin letters.
 所有单词由小写的拉丁字母组成。
 """
 def checkio(first, second):
-    return ""
+    result = []
+    first_sen = first.split(',')
+    second_sen = second.split(',')
+    for fir in first_sen:
+    	if fir in second_sen:
+    		result.append(fir)
+    result.sort()
+    print(result)
+    return ','.join(str(r) for r in result)
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
     assert checkio("hello,world", "hello,earth") == "hello", "Hello"
     assert checkio("one,two,three", "four,five,six") == "", "Too different"
     assert checkio("one,two,three", "four,five,one,two,six,three") == "one,three,two", "1 2 3"
+    assert checkio("mega,cloud,two,website,final","window,penguin,literature,network,fun,cloud,final,sausage") \
+   					 == "cloud,final", "cloud"

@@ -41,6 +41,7 @@ def checkio(number):
 
 	flag = 2
 	digit = []
+
 	while flag:
 
 		if flag == 10:
@@ -51,14 +52,18 @@ def checkio(number):
 		if num % flag == 0:
 			num /= flag
 			n += str(flag)
-			for i in range(2, 10):
+			for i in range(9, 1, -1):
 				if num % i == 0:
 					num /= i
 					n += str(i)
-					for j in range(2,int(num)):
-						if num % j == 0:
-							num /= j
-							n += str(j)
+					
+					while 1:
+						if num % i == 0:
+							num /= i
+							n += str(i)
+						else:
+							break
+					
 			if num != 1 and num < 10:
 				n += str(int(num))
 			if num > 10:
@@ -69,9 +74,16 @@ def checkio(number):
 
 		if n != '':
 			digit.append(n)	
-	print(digit)
-	if len(digit):
-		ro = map(int, digit)
+	ro1 = map(sorted,digit)
+	digit1 = []
+	for r in ro1:
+		string = ''
+		for s in r:
+			string += s
+		digit1.append(string)
+	print(digit1)
+	if len(digit1):
+		ro = map(int, digit1)
 		return min(n for n in ro)
 	else:
 		return 0
@@ -84,3 +96,4 @@ if __name__ == '__main__':
     assert checkio(33) == 0, "4th example"
     assert checkio(3125) == 55555, "5th example"
     assert checkio(9973) == 0, "6th example"
+    assert checkio(560) == 2578, "7th example"

@@ -36,29 +36,42 @@ Precondition:
 
 如何使用:你提出的解决方案在现实生活中是没有任何用处的。只是在这里找点乐子。
 """
+
+
 def largest_histogram(histogram):
     result = []
     result.append(max(histogram))
     result.append(len(histogram))
-    for n in range(len(histogram) - 1):
-    	his = ['1']
-    	if histogram[n] == 1:
-    		continue
-    	if histogram[n+1] != 1:
-    		his.append('1')
-    		num = min(histogram[n],histogram[n+1])
-    		result.append(num * len(his))
-    	else:continue
+    flag = 1
+    while flag:
+        if flag == len(histogram) + 1:
+            break
+        num = histogram[flag - 1]
+        for n in range(flag - 1, len(histogram) - 1):
+            his = ['1']
+            if histogram[n] <= 1:
+                continue
+            if histogram[n + 1] > 1:
+                his.append('1')
+                num = min(num, histogram[n + 1])
+            else:
+                continue
+            result.append(num * len(his))
+        flag += 1
+
+    print(max(result))
     return max(result)
 
 
 if __name__ == "__main__":
-    #These "asserts" using only for self-checking and not necessary for auto-testing
-    assert largest_histogram([5]) == 5, "one is always the biggest"
-    assert largest_histogram([5, 3]) == 6, "two are smallest X 2"
-    assert largest_histogram([1, 1, 4, 1]) == 4, "vertical"
-    assert largest_histogram([1, 1, 3, 1]) == 4, "horizontal"
-    assert largest_histogram([2, 1, 4, 5, 1, 3, 3]) == 8, "complex"
+    # These "asserts" using only for self-checking and not necessary for auto-testing
+    #assert largest_histogram([5]) == 5, "one is always the biggest"
+    #assert largest_histogram([5, 3]) == 6, "two are smallest X 2"
+    #assert largest_histogram([1, 1, 4, 1]) == 4, "vertical"
+    #assert largest_histogram([1, 1, 3, 1]) == 4, "horizontal"
+    #assert largest_histogram([2, 1, 4, 5, 1, 3, 3]) == 8, "complex"
+    assert largest_histogram([2, 3, 4, 2, 2]) == 10, "ten"
+    '''
     assert largest_histogram([0,3,6,9,12,15,18,22,25,28,31,34,37,41,44,47,50,53,56,60,63,66,\
     	69,72,75,79,82,85,88,91,94,97,101,104,107,110,113,116,119,123,126,129,132,135,138,141,\
     	145,148,151,154,157,160,163,166,169,173,176,179,182,185,188,191,194,197,201,204,207,210,\
@@ -97,5 +110,5 @@ if __name__ == "__main__":
     	223,220,216,213,210,207,204,201,198,195,192,189,185,182,179,176,173,170,167,164,161,157,154,151,148,145,142,\
     	139,136,132,129,126,123,120,117,114,110,107,104,101,98,95,92,88,85,82,79,76,73,69,66,63,60,57,54,50,47,44,41,\
     	38,35,32,28,25,22,19,16,13,9,6,3]) == 355232 ,"long"
+    '''
     print("Done! Go check it!")
-

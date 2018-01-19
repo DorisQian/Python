@@ -31,59 +31,63 @@ repeat_inside('abcabcabab') == 'abcabc'
 输入:字符串。
 输出:字符串。
 """
-import copy
+
+def newline(line):
+    new_line = ''
+    for i in range(len(line) - 1):
+        if line[i] != line[i + 1] and line[i] not in new_line:
+            new_line += line[i]
+            continue
+        if new_line !='' and line[i] != line[i + 1]:
+            break
+    return new_line
+
+
 def repeat_inside(line):
 
-    if len(set(line)) == len(line):
-        return ''
-    elif line.count(line[0]) == len(line):
+    new_line = newline(line)
+    if new_line == '':
         return line
-    else:
-        new_line = ''
-        newline = copy.copy(line)
-        pure = ''
-        for m in set(line):
-            #print(m)
-            if line.count(m) == 1:
-                pure += m
-                newline = newline.replace(m, '')
-        #print(newline)
-      
-        if line[0] in pure:
-            for i in range(len(newline) - 1):
-                if newline[i] != newline[i + 1] and newline[i] not in new_line:
-                    new_line += newline[i]
-            time = line.count(new_line)
-        else:
-            for i in range(len(line) - 1):
-                if line[i] != line[i + 1] and line[i] not in new_line:
-                    new_line += line[i]
-            time = line.count(new_line)
 
-        if time > 1 and len(new_line):
-            print(new_line * time)
-            return new_line * time
-        else:
-            new_line2 = ''
-            for n in range(len(newline) -1):
-                if newline[n] == newline[n + 1]:
-                    new_line2 += newline[n]
-                else:
-                    new_line2 += newline[n]
-                    break
-            print(new_line2)
-            return new_line2
-        
+    if len(line) == len(set(line)):
+        return ''
+
+    sec_str=''
+    index = line.index(new_line[-1])
+    sec_line = line[index + 1:]
+    for  s in sec_line:
+        sec_str += s
+        if sec_str not in line[:index]:  
+            sec_str.replace(s,'')
+            break
+    if len(sec_str) == 1:
+        repeat=''
+        for i in range(len(line)-1):
+            if line[i] == line[i+1]:  
+                repeat += line[i]
+            else:
+                repeat += line[i]
+                break
+        return repeat
+
+    if sec_str == line[index-len(sec_str) + 1:index + 1]:
+        num = line.count(sec_str)
+        return(sec_str * num)
+    else:
+        line = line.replace(new_line,'').strip('')
+        new_line = newline(line)
+        return (repeat_inside(line))
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
-    '''
+    
     assert repeat_inside('aaaaa') == 'aaaaa', "First"
     assert repeat_inside('aabbff') == 'aa', "Second"
     assert repeat_inside('aababcc') == 'abab', "Third"
     assert repeat_inside('abc') == '', "Forth"
-    assert repeat_inside('abcabcabab') == 'abcabc', "Fifth"
+    assert repeat_inside('abcabcabab') == 'abcabc', "Fifth"   
     assert repeat_inside("rtafafafaf") == 'afafafaf', "Sixth"
-    '''
     assert repeat_inside("rghtyjdfrtdfdf56r") == 'dfdf', "Seventh"
+    assert repeat_inside("rabcabcdfr") == 'abcabc', "Eighth"
     print('"Run" is good. How is "Check"?')

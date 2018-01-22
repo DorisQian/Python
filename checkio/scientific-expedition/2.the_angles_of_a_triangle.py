@@ -36,16 +36,40 @@ triangle-angles
 from sympy import *
 
 
-def checkio(a, b, c):
+def checkio(*arg):
 
-	x, y, z = symbols('x y z')
-	x = solve(c ** 2 + b ** 2 - a ** - 2 * c  * b * cos(x), x)
-	y = solve(a ** 2 + c ** 2 - b ** - 2 * a  * c * cos(y), y)
-	z = solve(a ** 2 + b ** 2 - c ** - 2 * a  * b * cos(z), z)
-	print(x,y,z)
+	if isinstance(arg[0], list):
+		print(arg)
+		a = arg[0][0]
+		b = arg[0][1]
+		c = arg[0][2]
+	else:
+		a = arg[0]
+		b = arg[1]
+		c = arg[2]
+
+	if a + b <= c or b + c <= a or a + c <= b:
+		return [0, 0, 0] 
+
+	x, y, z,n = symbols('x y z n')
+	x = solve(c ** 2 + b ** 2 - a ** 2 - 2 * c  * b * cos(x), x)
+	y = solve(a ** 2 + c ** 2 - b ** 2 - 2 * a  * c * cos(y), y)
+	z = solve(a ** 2 + b ** 2 - c ** 2 - 2 * a  * b * cos(z), z)
+	x = list(j for j in x if j < pi)
+	y = list(k for k in y if k < pi)
+	z = list(m for m in z if m < pi)
+	#print(x,y,z)
+	result = []
+	for n in (x, y, z):
+		result.append(round((180 * n[0] / pi).evalf()))
+	print(result)
+	return sorted(result, reverse = False)
+
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
     assert checkio(4, 4, 4) == [60, 60, 60], "All sides are equal"
     assert checkio(3, 4, 5) == [37, 53, 90], "Egyptian triangle"
     assert checkio(2, 2, 5) == [0, 0, 0], "It's can not be a triangle"
+    assert checkio(5, 4, 3) == [37, 53, 90], "other"
+    assert checkio([10,20,30]) == [0, 0, 0], "0"

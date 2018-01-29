@@ -62,34 +62,58 @@ Precondition: 1 <= len(tree) < 100
 输出:bool。家谱是正确的。
 """
 from collections import defaultdict
+import copy
 
 
 def is_family(tree):
     if len(tree):
       son_list = []
+      fa_list = []
       family_dic = defaultdict(set)
       for relation in tree:
         family_dic[relation[0]] |= {relation[1]}
         son_list.append(relation[1])
+        fa_list.append(relation[0])
       #print(family_dic)
       #print(son_list)
+
+      if len(family_dic.keys()) == 1:
+        return True
       
       for son in son_list:
-        father = (fa for (so, fa) in family_dic.items() if so == son)
-        print(list(father))
-        print(family_dic[son])
-        if father in family_dic[son]:
-          print(1)
+        family = copy.deepcopy(family_dic)
+        #print(family_dic)
+        #print(son)
+        for fa, so in family_dic.items():
+          if son in so:
+            father = fa
+  
+        #print(father,'father')
+        #print(family_dic[son],'family_son')
+        #print(family_dic[father])
+
+        if len(set(son_list)) < len(son_list):
           return False
-        else:
-          return True
-    else:
-      return False
+
+        if father in family[son]:
+          return False
+
+        if family[son] & family[father]:
+          return False
+
+
+        if son not in family_dic.keys() and father not in son_list:
+          if fa_list.count(father) == 1:
+            return False
+          else:continue
+      else:
+        return True
+
 
 
 if __name__ == "__main__":
     #These "asserts" using only for self-checking and not necessary for auto-testing
-    '''
+    
     assert is_family([
       ['Logan', 'Mike']
     ]) == True, 'One father, one son'
@@ -98,26 +122,35 @@ if __name__ == "__main__":
       ['Logan', 'Mike'],
       ['Logan', 'Jack']
     ]) == True, 'Two sons'
+    
     assert is_family([
       ['Logan', 'Mike'],
       ['Logan', 'Jack'],
       ['Mike', 'Alexander']
     ]) == True, 'Grandfather'
-    '''
+    
     assert is_family([
       ['Logan', 'Mike'],
       ['Logan', 'Jack'],
       ['Mike', 'Logan']
     ]) == False, 'Can you be a father for your father?'
+    
     assert is_family([
       ['Logan', 'Mike'],
       ['Logan', 'Jack'],
       ['Mike', 'Jack']
     ]) == False, 'Can you be a father for your brather?'
+    
     assert is_family([
       ['Logan', 'William'],
       ['Logan', 'Jack'],
       ['Mike', 'Alexander']
     ]) == False, 'Looks like Mike is stranger in Logan\'s family'
+    
+    assert is_family([
+      ["Logan","William"],
+      ["Mike","Alexander"],
+      ["William","Alexander"]
+    ]) == False, 'Who\'s Your Daddy?\'s Your Daddy?'
     print("Looks like you know everything. It is time for 'Check'!")
 

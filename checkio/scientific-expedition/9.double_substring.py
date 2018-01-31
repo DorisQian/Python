@@ -31,17 +31,29 @@ def double_substring(line):
     if len(line) <= 3:
         return 0
     else:
-        #sub = len(line) / 2
-        num = 0
+        sub = len(line) // 2
+        while sub:
+            #print(sub)
+            for i in range(len(line) - sub):
+                substring = line[i: i + sub]
+                if line.count(substring) > 1:
+                    print(substring)
+                    return sub
+            sub -= 1
+        return 0
+        '''
         for i in range(len(line) -1):
             substring = line[i] + line[i+1]
             sums = line.count(substring)
             num = max(num, sums)
         return num
+        '''
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
     assert double_substring('aaaa') == 2, "First"
     assert double_substring('abc') == 0, "Second"
     assert double_substring('aghtfghkofgh') == 3, "Third"
+    assert double_substring("abababaab") == 3, "forth"
     print('"Run" is good. How is "Check"?')

@@ -53,97 +53,57 @@ calculate-islands
 如何使用:这个任务是一个分离集数据结构的示例。分离集数据结构模型的划分;例如，它有助于在无向图
 (网络)中跟踪连接的组件。
 """
-'''
-def checkio(land_map):
-    index = []
-    for x in range(len(land_map)):
-        line = land_map[x]
-        count = line.count(1)
-        while count:
-            index.append((x, line.index(1)))
-            line[line.index(1)] = 0
-            count -= 1
-    #print(index)
 
-    num = []
-    while len(index):
-        node = index.pop()
-        print(index,'index')
-        x, y = node[0], node[1]
-        if y == 0:
-            relation_node = [(x, y + 1), (x - 1,y), (x - 1, y + 1)]
-        if y == len(land_map[0]) - 1:
-            relation_node = [(x - 1, y), (x - 1, y - 1)]
-        else:
-            relation_node = [(x, y + 1), (x - 1,y), (x - 1, y + 1),(x - 1, y - 1)]
-        #print(relation_node, 'relation_node')
-        
-        count = 1
-        new_index = []
-        for relation in relation_node:       
-            if relation in index:
-                new_index.append(relation)
-                count += 1
-            
-            #if len(new_index) != 0:
-            for r in new_index :
-                if r in index:
-                    index.remove(r)
 
-        if len(new_index) == 0:
-            num.append(1)
-        else:
-            num.append(count)
-
-        print(new_index,'new_index')
-        
-        print(num, 'num')
-    print(sorted(num))
-    return sorted(num)
-'''
-def relationship(node,land_map):
-    print(node, 'node')
+def relationship(node, land_map):
+    # print(node, 'node')
     x, y = node[0], node[1]
-    if y == 0:
-        relation_node = [(x, y + 1), (x - 1,y), (x - 1, y + 1)]
-    if y == len(land_map[0]) - 1:
-        relation_node = [(x - 1, y), (x - 1, y - 1), (x, y -1)]
+    if y == 0 and x != 0:
+        relation_node = [(x, y + 1), (x - 1, y), (x - 1, y + 1)]
+    if y == len(land_map[0]) - 1 and x != 0:
+        relation_node = [(x - 1, y), (x - 1, y - 1), (x, y - 1)]
+    if y == 0 and x == 0:
+        relation_node = [(x, y + 1)]
+    if y == len(land_map[0]) - 1 and x == 0:
+        relation_node = [(x, y - 1)]
     else:
-        relation_node = [(x, y + 1), (x - 1,y), (x - 1, y + 1),(x - 1, y - 1), (x, y -1)]
-        
+        relation_node = [(x, y + 1), (x - 1, y), (x - 1, y + 1), (x - 1, y - 1), (x, y - 1)]
     return relation_node
 
-def new_count(relation_node, index, land_map, count,num):
-    
-    print(index,'new_countindex')
-    new_index = []
-    print(relation_node, 'relation_node')
-    for relation in relation_node:       
+
+def new_count(relation_node, index, land_map, num, count, new_index):
+    # print(relation_node, 'relation_node')
+    for relation in relation_node:
         if relation in index:
             new_index.append(relation)
             count += 1
-                
         for r in new_index:
             if r in index:
                 index.remove(r)
-    print(new_index,'new_index')
-    if len(new_index) == 0:
-        num.append(1)
-    else:
-        while len(new_index):
-            new_node = new_index.pop()
-            new_relation_node = relationship(new_node,land_map)
-            new_count(new_relation_node, index, land_map, count,num)
+    # print(new_index, 'new_index')
 
+    # print(index, 'after_del')
+    # print(count, 'count')
+
+    if len(index) != 0 and len(new_index) != 0:
+        while len(new_index):
+            # print(len(index), 'lenindex')
+            if len(index) == 0:
+                new_index = []
+                break
+            else:
+                new_node = new_index.pop()
+                new_relation_node = relationship(new_node, land_map)
+                new_count(new_relation_node, index, land_map, num, count, new_index)
+        count = 0
+    # print(count, 'count222')
     num.append(count)
-        #checkio(new_index)
     return num
 
 
 def checkio(land_map):
-
     index = []
-    num =[]
+    num = []
     for x in range(len(land_map)):
         line = land_map[x]
         count = line.count(1)
@@ -151,28 +111,37 @@ def checkio(land_map):
             index.append((x, line.index(1)))
             line[line.index(1)] = 0
             count -= 1
+    count = 1
+    new_index = []
     while len(index):
         node = index.pop()
-        print(index,'checkioindex')
-        relation_node = relationship(node,land_map)
-        count = 1
-        ro = new_count(relation_node, index, land_map,count,num)
-    print(ro,'num')
-    return ro
+        # print(index, 'checkioindex')
+        relation_node = relationship(node, land_map)
+        ro = new_count(relation_node, index, land_map, num, count, new_index)
+        # print(ro, 'num')
+        # print(len(index), 'i')
 
-#These "asserts" using only for self-checking and not necessary for auto-testing
+    n = ro.count(0)
+    while n:
+        ro.remove(0)
+        n -= 1
+    print(sorted(ro))
+    return sorted(ro)
+
+# These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
-    
+
     assert checkio([[0, 0, 0, 0, 0],
                     [0, 0, 1, 1, 0],
                     [0, 0, 0, 1, 0],
                     [0, 1, 0, 0, 0],
                     [0, 0, 0, 0, 0]]) == [1, 3], "1st example"
-                    
+
     assert checkio([[0, 0, 0, 0, 0],
                     [0, 0, 1, 1, 0],
                     [0, 0, 0, 1, 0],
                     [0, 1, 1, 0, 0]]) == [5], "2nd example"
+
     assert checkio([[0, 0, 0, 0, 0, 0],
                     [1, 0, 0, 1, 1, 1],
                     [1, 0, 0, 0, 0, 0],

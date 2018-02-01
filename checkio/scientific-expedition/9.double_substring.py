@@ -29,6 +29,8 @@ double_substring('aghtfghkofgh') == 3 # fgh
 def double_substring(line):
 
     if len(line) <= 3:
+        if len(set(line)) == 1:
+            return 1
         return 0
     else:
         sub = len(line) // 2
@@ -56,4 +58,5 @@ if __name__ == '__main__':
     assert double_substring('abc') == 0, "Second"
     assert double_substring('aghtfghkofgh') == 3, "Third"
     assert double_substring("abababaab") == 3, "forth"
+    assert double_substring("aa") == 1, "fivth"
     print('"Run" is good. How is "Check"?')

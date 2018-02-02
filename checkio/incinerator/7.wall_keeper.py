@@ -15,12 +15,27 @@ Output: Clicked panels as a list of Integers.
 Example:
 
 wall_keeper([5, 7, 13, 14, 18]) == [2, 6, 7, 8, 10, 12, 15, 18, 24, 25]
-1
+
 How it is used: Get the puzzle's automatic answer.
 
 Precondition:
 all([1 <= p <= 25 for p in on_panels])
 It does not have to be the shortest answer
+
+在这个时候，你需要实现熄灯难题的求解器。
+
+谜题的规则：
+
+这个难题使用5x5网格。 每个面板有两个状态（亮或灭）。
+如果您点击一个面板，面板和相邻的（4个方向）面板将会翻转。 （在<=>关闭）
+目标是所有的面板灯熄灭。
+
+
+输入：开状态面板作为整数列表。
+
+输出：点击面板作为整数列表。
+
+如何使用：获取拼图的自动答案。
 '''
 def wall_keeper(on_panels):
     return []

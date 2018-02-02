@@ -1,6 +1,7 @@
 '''
 Find distance and direction to enemy in a HEX-grid
-Input: three arguments, your corrent coordinates, your current absolute direction, enemy's coordinates.
+Input: three arguments, your corrent coordinates, your current absolute
+direction, enemy's coordinates.
 
 Output: list, relative direction to the enemy and distance to the enemy .
 
@@ -17,6 +18,15 @@ Precondition:
 'A1' ≤ coordinates ≤ 'Z9'.
 direction in ('N', 'NE', 'SE', 'S', 'SW', 'NW').
 your coordinates ≠ enemy's coordinates.
+
+在HEX网格中找到敌人的距离和方向
+输入：三个参数，您的电流坐标，您当前的绝对值
+方向，敌人的坐标。
+
+输出：列表，敌人的相对方向和距离敌人的距离。
+
+如何使用它：
+使用六角网格的战争游戏设计
 '''
 
 def find_enemy(you, dir, enemy):

@@ -28,23 +28,15 @@ Precondition: 0 < number < 106
 
 如何使用： 这个任务可以教你如何解决一个简单的数据类型转换的问题。
 
-def checkio(number):
-
-    return 1
-
-#These "asserts" using only for self-checking and not necessary for auto-testing
-if __name__ == '__main__':
-    assert checkio(123405) == 120
-    assert checkio(999) == 729
-    assert checkio(1000) == 1
-    assert checkio(1111) == 1
-    print("Coding complete? Click 'Check' to review your tests and earn cool rewards!")
-
 """
 
 def checkio(number):
-
-    return 1
+	num = 1
+	for i in map(int,str(number)):
+		if i:
+			num *= i
+	return num
+#	return (lambda num: num*i (i for i in map(int,str(number)) if i))
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

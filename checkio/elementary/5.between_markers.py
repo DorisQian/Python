@@ -31,41 +31,27 @@ between_markers('No[/b] hi', '[b]', '[/b]') == 'No'
 
 先决条件： 不能超过一个最后的标记，不能超过一个最初的标记
 
-def between_markers(text: str, begin: str, end: str) -> str:
-    """
-        returns substring between two given markers
-    """
-    # your code here
-    return ''
-
-
-if __name__ == '__main__':
-    print('Example:')
-    print(between_markers('What is >apple<', '>', '<'))
-
-    # These "asserts" are used for self-checking and not for testing
-    assert between_markers('What is >apple<', '>', '<') == "apple", "One sym"
-    assert between_markers("<head><title>My new site</title></head>",
-                           "<title>", "</title>") == "My new site", "HTML"
-    assert between_markers('No[/b] hi', '[b]', '[/b]') == 'No', 'No opened'
-    assert between_markers('No [b]hi', '[b]', '[/b]') == 'hi', 'No close'
-    assert between_markers('No hi', '[b]', '[/b]') == 'No hi', 'No markers at all'
-    assert between_markers('No <hi>', '>', '<') == '', 'Wrong direction'
-    print('Wow, you are doing pretty good. Time to check it!')
-
 """
+import sys
 
 def between_markers(text: str, begin: str, end: str) -> str:
     """
         returns substring between two given markers
     """
-    # your code here
-    return ''
+
+    try:
+        begin_index = text.index(begin) + len(begin)
+    except ValueError:
+        begin_index = 0
+    try:
+        end_index = text.index(end)
+    except ValueError:
+        end_index = (len(text) + 1)
+    return text[begin_index:end_index]
 
 
 if __name__ == '__main__':
-    print('Example:')
-    print(between_markers('What is >apple<', '>', '<'))
+    print(between_markers('No[/b] hi', '[b]', '[/b]'))
 
     # These "asserts" are used for self-checking and not for testing
     assert between_markers('What is >apple<', '>', '<') == "apple", "One sym"
@@ -75,4 +61,4 @@ if __name__ == '__main__':
     assert between_markers('No [b]hi', '[b]', '[/b]') == 'hi', 'No close'
     assert between_markers('No hi', '[b]', '[/b]') == 'No hi', 'No markers at all'
     assert between_markers('No <hi>', '>', '<') == '', 'Wrong direction'
-    print('Wow, you are doing pretty good. Time to check it!')
+    # assert between_markers('yes') == 'yes', 'wrong'

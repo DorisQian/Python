@@ -33,28 +33,17 @@ array = [1,2,3,4]，N = 2，结果是3 2 == 9;
 输出：结果为整数。
 如何使用： 这个任务教你如何使用简单的数学与基本的数组和索引。
 
-def index_power(array, n):
-    """
-        Find Nth power of the element with index N.
-    """
-    return None
-
-if __name__ == '__main__':
-    #These "asserts" using only for self-checking and not necessary for auto-testing
-    assert index_power([1, 2, 3, 4], 2) == 9, "Square"
-    assert index_power([1, 3, 10, 100], 3) == 1000000, "Cube"
-    assert index_power([0, 1], 0) == 1, "Zero power"
-    assert index_power([1, 2], 3) == -1, "IndexError"
-    print("Coding complete? Click 'Check' to review your tests and earn cool rewards!")
-
-
 """
 
 def index_power(array, n):
     """
         Find Nth power of the element with index N.
     """
-    return None
+    if n > len(array) -1:
+        return -1
+    else:
+        return (array[n] ** n)
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

@@ -40,26 +40,70 @@ Precondition: Dates between 1 january 1 and 31 december 9999. Dates are correct.
 
 先决条件:日期为1月1日至12月31日。日期是正确的。
 """
+
 import datetime
 def days_diff(date1, date2):
-	'''
-	if len(str(date1[1])) == 1:
-		date1[1] = 0 + date1[1]
-	'''
-	date1 = str(date1[0]) +'-' + str(date1[1]) +'-' + str(date1[2])
-	date2 = str(date2[0]) +'-' + str(date2[1]) +'-' + str(date2[2])
-	
+	def count_leap(year):
+		leep_year = []
+		for i in range(1, year + 1):
+			if i % 100 != 0 and i % 4 == 0:
+				leep_year.append(i)
+			if i % 100 == 0 and i % 400 == 0:
+				leep_year.append(i)
+		#print(leep_year, len(leep_year))
+		return len(leep_year)
+	if date1 > date2:
+		a, b = date1, date2
+		date1 = b
+		date2 = a
+	year1, year2= date1[0], date2[0]
+	if year1 >= 1000:
+		date1 = str(date1[0]) +'-' + str(date1[1]) +'-' + str(date1[2])
+		date2 = str(date2[0]) +'-' + str(date2[1]) +'-' + str(date2[2])
+		
+	if year2 < 1000:
+		date1 = str(date1[0] + 999) +'-' + str(date1[1]) +'-' + str(date1[2])
+		date2 = str(date2[0] + 999) +'-' + str(date2[1]) +'-' + str(date2[2])
+
+	if year1 < 1000 and year2 >= 1000:
+		date1 = str(date1[0] + 999) +'-' + str(date1[1]) +'-' + str(date1[2])
+		if year2 <= 9000:
+			date2 = str(date2[0] + 999) +'-' + str(date2[1]) +'-' + str(date2[2])
+		else:
+			date2 = str(date2[0]) +'-' + str(date2[1]) +'-' + str(date2[2])
+
 	d1 = datetime.datetime.strptime(date1, '%Y-%m-%d').date()
 	d2 = datetime.datetime.strptime(date2, '%Y-%m-%d').date()
+	
+	if year2 < 1000:
+		y1 = count_leap(year1)
+		y2 = count_leap(year2)
+		leap1 = y2 - y1
+		leap2 = count_leap(year2 + 1000) - count_leap(year1 + 1000)
+		return abs((d1 - d2).days) + leap2 - leap1
 
-	print(d1, d2)
-	print(abs((d1 - d2).days))
-
-	return abs((d1 - d2).days)
-
-
+	elif year2 > 1000 and year1 < 1000:
+		if year2 <= 9000:
+			leap1 = count_leap(year2) - count_leap(year1)
+			leap2 = count_leap(year2 + 1000) - count_leap(year1 + 1000)
+			print(abs((d1 - d2).days) + leap2 - leap1)
+			return abs((d1 - d2).days) + leap2 - leap1
+		else:
+			leap1 = count_leap(year1)
+			leap2 = count_leap(999 + year1)
+			print(abs((d1 - d2).days) + leap2 - leap1 + 999 * 365 )
+			return abs((d1 - d2).days) + leap2 - leap1 + 999 * 365 
+	else:
+		print(abs((d1 - d2).days))
+		return abs((d1 - d2).days)
+	
+	
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
+    
     assert days_diff((1982, 4, 19), (1982, 4, 22)) == 3
     assert days_diff((2014, 1, 1), (2014, 8, 27)) == 238
     assert days_diff((2014, 8, 27), (2014, 1, 1)) == 238
+    assert days_diff((1,1,1), (9999,12,31)) == 3652058
+    assert days_diff((9999,12,31), (1,1,1)) == 3652058
+    assert days_diff((696,5,7), (9241,6,27)) == 3121048

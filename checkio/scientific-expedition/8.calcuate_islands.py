@@ -55,19 +55,36 @@ calculate-islands
 """
 
 
-def relationship(node, land_map):
-    # print(node, 'node')
+def relationship(node, land_map):  
     x, y = node[0], node[1]
-    if y == 0 and x != 0:
-        relation_node = [(x, y + 1), (x - 1, y), (x - 1, y + 1)]
-    if y == len(land_map[0]) - 1 and x != 0:
-        relation_node = [(x - 1, y), (x - 1, y - 1), (x, y - 1)]
-    if y == 0 and x == 0:
-        relation_node = [(x, y + 1)]
-    if y == len(land_map[0]) - 1 and x == 0:
-        relation_node = [(x, y - 1)]
+
+    ul = (x - 1, y - 1)
+    u = (x - 1, y)
+    ur = (x - 1, y + 1)
+    l = (x, y - 1)
+    r = (x, y + 1)
+    dl = (x + 1, y - 1)
+    d = (x + 1, y)
+    dr = (x + 1,y + 1)
+
+    if x == 0 and y == 0:
+        relation_node = [r, d, dr]
+    elif x == 0 and y == len(land_map[0]) - 1:
+        relation_node = [l, dl, d]
+    elif x == len(land_map) - 1 and y == 0:
+        relation_node = [u, ur, r]
+    elif x == len(land_map) -1 and y == len(land_map[0]) - 1:
+        relation_node = [ul, u, l]
+    elif x == 0 and y != 0 and y != len(land_map[0]) - 1:
+        relation_node = [l, r, dl, d, dr]
+    elif x == len(land_map) -1 and y != 0 and y != len(land_map[0]) - 1:
+        relation_node = [ul, u, ur, l, r]
+    elif y == 0 and x != 0 and x != len(land_map) - 1:
+        relation_node = [u, ur, r, d, dr]
+    elif y == len(land_map[0]) - 1 and x != 0 and x != len(land_map) - 1:
+        relation_node = [ul, u, l, dl, d] 
     else:
-        relation_node = [(x, y + 1), (x - 1, y), (x - 1, y + 1), (x - 1, y - 1), (x, y - 1)]
+        relation_node = [ul, u, ur, l, r, dl, d, dr]
     return relation_node
 
 
@@ -115,7 +132,7 @@ def checkio(land_map):
     new_index = []
     while len(index):
         node = index.pop()
-        # print(index, 'checkioindex')
+        #print(index, 'checkioindex')
         relation_node = relationship(node, land_map)
         ro = new_count(relation_node, index, land_map, num, count, new_index)
         # print(ro, 'num')
@@ -128,9 +145,10 @@ def checkio(land_map):
     print(sorted(ro))
     return sorted(ro)
 
+
 # These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
-
+    
     assert checkio([[0, 0, 0, 0, 0],
                     [0, 0, 1, 1, 0],
                     [0, 0, 0, 1, 0],
@@ -149,3 +167,12 @@ if __name__ == '__main__':
                     [0, 0, 0, 0, 0, 0],
                     [0, 1, 1, 1, 1, 0],
                     [0, 0, 0, 0, 0, 0]]) == [2, 3, 3, 4], "3rd example"
+    
+    assert checkio([[0,0,0,0,0,0],
+                    [0,1,1,1,0,0],
+                    [0,1,0,1,0,0],
+                    [0,1,0,1,0,0],
+                    [0,0,0,0,0,0],
+                    [0,1,0,0,1,0],
+                    [0,1,0,1,1,1],
+                    [0,0,0,0,1,0]]) == [2, 5, 7], "4th example"

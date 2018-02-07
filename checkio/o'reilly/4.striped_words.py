@@ -46,13 +46,14 @@ Precondition:The text contains only ASCII symbols.
 如何使用:这个任务中的这个想法是语言学研究和分析的有用的练习。文本处理是分析各种书籍和语言
 的主要工具之一，可以帮助将打印文本转换成数字格式。
 """
+import re
 
 VOWELS = "AEIOUY"
 CONSONANTS = "BCDFGHJKLMNPQRSTVWXZ"
 
 
 def checkio(text):
-	word = text.upper().replace(',', ' ').replace('.', ' ').split(' ')
+	word = re.sub("[\.\!\,\?]+", " ", text).upper().split(' ')
 	remove = []
 	for w in word:
 		if len(w) == 1:
@@ -72,19 +73,17 @@ def checkio(text):
 				else:
 					remove.append(w)
 					break
-	print(remove,'remove')
+	#print(remove,'remove')
 	for r in remove:
 		word.remove(r)
-	print(word, len(word))
+	#print(word, len(word))
 	return len(word)
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
-	'''
     assert checkio("My name is ...") == 3, "All words are striped"
     assert checkio("Hello world") == 0, "No one"
     assert checkio("A quantity of striped words.") == 1, "Only of"
     assert checkio("Dog,cat,mouse,bird.Human.") == 3, "Dog, cat and human"
-    '''
-    assert checkio("To take a trivial example, which of us ever undertakes \
+    assert checkio("To take a trivial example, which of us ever undertakes '\
     	laborious physical exercise, except to obtain some advantage from it?") == 8

@@ -94,9 +94,18 @@ def checkio(height, width):
     if height == width:
     	s = 4 * math.pi * (height / 2) ** 2
     	v = (4 / 3) * math.pi * (height / 2) ** 3
-    else:
-    	s = 4 * math.pi * ((height / 2) * (width / 2) * (width / 2)) ** (2/3)
+    # 扁球体
+    elif height < width:
     	v = (4 / 3) * math.pi * (height / 2) * (width / 2) * (width / 2)
+    	#e = math.sqrt(1 - (height ** 2 / width ** 2))
+    	#s = 0.5 * math.pi  * (width**2) * (1 + (1-e**2)/e * math.atanh(e))
+    	k = math.sqrt(width ** 2 - height ** 2) / height
+    	s = 0.5 * math.pi  * (width ** 2 + height * width * (math.asinh(k)) / k)
+    # 长球体
+    else:
+    	v = (4 / 3) * math.pi * (height / 2) * (width / 2) * (width / 2)
+    	e = math.sqrt(height ** 2 - width ** 2) / height
+    	s = 0.5 * math.pi  * (width ** 2 + height * width * (math.asin(e)) / e)
     print([round(v, 2), round(s, 2)])
     return [round(v, 2), round(s, 2)]
 

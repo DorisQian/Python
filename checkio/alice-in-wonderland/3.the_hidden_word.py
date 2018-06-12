@@ -44,9 +44,16 @@ I dreamed that, if I counted all,
 
 "Puzzles from Wonderland." Lewis Carroll
 
-Nicola has solved this puzzle (and I am sure that you will do equally well). To be prepared for more such puzzles, Nicola wants to invent a method to search for words inside poetry. You can help him create a function to search for certain words.
+Nicola has solved this puzzle (and I am sure that you will do equally well). 
+To be prepared for more such puzzles, Nicola wants to invent a method to search 
+for words inside poetry. You can help him create a function to search for certain words.
 
-You are given a rhyme (a multiline string), in which lines are separated by "newline" (\n). Casing does not matter for your search, but whitespaces should be removed before your search. You should find the word inside the rhyme in the horizontal (from left to right) or vertical (from up to down) lines. For this you need envision the rhyme as a matrix (2D array). Find the coordinates of the word in the cut rhyme (without whitespaces).
+You are given a rhyme (a multiline string), in which lines are separated by 
+"newline" (\n). Casing does not matter for your search, but whitespaces should 
+be removed before your search. You should find the word inside the rhyme in the 
+horizontal (from left to right) or vertical (from up to down) lines. For this you 
+need envision the rhyme as a matrix (2D array). Find the coordinates of the word 
+in the cut rhyme (without whitespaces).
 
 The result must be represented as a list -- [row_start,column_start,row_end,column_end], where
 
@@ -75,7 +82,8 @@ The Jabberwock, with eyes of flame,
 Came whiffling through the tulgey wood,
 And burbled as it came!""", "noir") == [4, 16, 7, 16]
     
-How it is used: This task shows the variance of the positional ciphers. With this cipher you can hide a message within a book which allows you and receiver to send these coded messages.
+How it is used: This task shows the variance of the positional ciphers. With this cipher you can 
+hide a message within a book which allows you and receiver to send these coded messages.
 
 Precondition: The word is given in lowercase
 0 < |word| < 10
@@ -126,9 +134,12 @@ O frabjous的一天！ Callooh！ Callay！”
 
 “仙境的困惑”刘易斯·卡罗尔
 
-尼古拉已经解决了这个难题（我相信你会同样做得很好）。为了准备更多这样的谜题，尼古拉想要发明一种方法来搜索诗歌里面的单词。你可以帮助他创建一个功能来搜索某些单词。
+尼古拉已经解决了这个难题（我相信你会同样做得很好）。为了准备更多这样的谜题，尼古拉想要发明一种
+方法来搜索诗歌里面的单词。你可以帮助他创建一个功能来搜索某些单词。
 
-给你一个韵（多行字符串），其中行由“换行符”（\ n）分隔。你的搜索没有关系，但在搜索之前，空格应该被删除。你应该在水平方向（从左到右）或垂直方向（从上到下）找到韵文中的单词。为此，你需要将韵看成一个矩阵（二维数组）。在切韵中找出单词的坐标（没有空格）。
+给你一个韵（多行字符串），其中行由“换行符”（\ n）分隔。你的搜索没有关系，但在搜索之前，
+空格应该被删除。你应该在水平方向（从左到右）或垂直方向（从上到下）找到韵文中的单词。为此，
+你需要将韵看成一个矩阵（二维数组）。在切韵中找出单词的坐标（没有空格）。
 
 结果必须表示为一个列表 - [row_start，column_start，row_end，column_end]，其中
 
@@ -145,8 +156,48 @@ column_end是单词最后一个字母的列号。
 
 
 def checkio(text, word):
-    return [1, 1, 1, 4]
+    text_list = text.split('\n')
+    text_new = []
+    for i in text_list:
+    	text = i.split(' ')
+    	n_text = ''
+    	for j in text:
+    		n_text += j
+    	text_new.append(n_text)
+    #print(text_new)
+    result = []
+    for k in text_new:
+    	if word in k:
+    		result.append(text_new.index(k) + 1)
+    		result.append(k.index(word) + 1)
+    		result.append(text_new.index(k) + 1)
+    		result.append(k.index(word) + len(word))
+    		return result
+   	
+    reverse_list = []
+    long_len = [len(row) for row in text_new]
+    leng = max(long_len)
+    for i in range(len(text_new)):
+    	flag = len(text_new[i])
+    	while flag < leng:
+    		text_new[i] += ' '
+    		flag += 1
+    #print(text_new)
+    for index in range(leng):
+    	new_row = ''
+    	for text_row in text_new:
+    		new_row += text_row[index]
+    	reverse_list.append(new_row)
 
+    result = []
+    for k in reverse_list:
+    	if word in k:
+    		result.append(k.index(word) + 1)
+    		result.append(reverse_list.index(k) + 1)
+    		result.append(k.index(word) + len(word))
+    		result.append(reverse_list.index(k) + 1)
+    		print(result)
+    		return result
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
     assert checkio("""DREAMING of apples on a wall,

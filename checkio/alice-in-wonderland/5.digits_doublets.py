@@ -87,9 +87,42 @@ Doublets，有时被称为Word梯，是Charles Dodgson（又名Lewis Carroll）�
 如何使用：这个任务就像寻找数字一样。它显示了这个世界上有多少事物可以用数学，甚至文字来表示。
 '''
 
+def editDistance(a, b):
+	a = str(a)
+	b = str(b)
+	ret = 0
+	for i in range(len(a)):
+		if a[i] != b[i]:
+			ret += 1
+	return ret
 
 def checkio(numbers):
-    return []
+    start = numbers[0]
+    end = numbers[-1]
+    now = start
+    opn = [now]
+    closed = []
+    status = dict()
+    status[now] = -1
+    while now != end:
+    	opn.remove(now)
+    	closed.append(now)
+    	neighbors = [x for x in numbers if editDistance(now, x) == 1]
+    	for n in neighbors:
+    		if n in closed:
+    			continue
+    		if n not in opn:
+    			opn.append(n)
+    			status[n] = now
+    	now = opn[0]
+
+    result = []
+    while status[now] != -1:
+    	result.append(now)
+    	now = status[now]
+    result.append(now)
+    result.reverse()
+    return result
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

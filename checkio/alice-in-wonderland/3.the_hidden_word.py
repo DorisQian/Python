@@ -164,14 +164,14 @@ def checkio(text, word):
     	for j in text:
     		n_text += j
     	text_new.append(n_text)
-    #print(text_new)
+    # print(text_new)
     result = []
     for k in text_new:
-    	if word in k:
+    	if word in k.lower():
     		result.append(text_new.index(k) + 1)
-    		result.append(k.index(word) + 1)
+    		result.append(k.lower().index(word) + 1)
     		result.append(text_new.index(k) + 1)
-    		result.append(k.index(word) + len(word))
+    		result.append(k.lower().index(word) + len(word))
     		return result
    	
     reverse_list = []
@@ -191,10 +191,10 @@ def checkio(text, word):
 
     result = []
     for k in reverse_list:
-    	if word in k:
-    		result.append(k.index(word) + 1)
+    	if word in k.lower():
+    		result.append(k.lower().index(word) + 1)
     		result.append(reverse_list.index(k) + 1)
-    		result.append(k.index(word) + len(word))
+    		result.append(k.lower().index(word) + len(word))
     		result.append(reverse_list.index(k) + 1)
     		print(result)
     		return result
@@ -212,3 +212,7 @@ And as in uffish thought he stood,
 The Jabberwock, with eyes of flame,
 Came whiffling through the tulgey wood,
 And burbled as it came!""", "noir") == [4, 16, 7, 16]
+    assert checkio("""Hi all!
+And all goodbye!
+Of course goodbye.
+or not""","haoo") == [1,1,4,1]

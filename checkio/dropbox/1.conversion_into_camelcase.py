@@ -37,9 +37,10 @@ Input data won't contain any numbers.
 '''
 
 def to_camel_case(name):
-    #replace this for solution
-    return name
-
+    re = name.replace('_', ' ').title()
+    result = ''.join(re.split(' '))
+    return result
+    
 if __name__ == '__main__':
     print("Example:")
     print(to_camel_case('name'))

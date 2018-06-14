@@ -28,12 +28,24 @@ Preconditions: Year is between 1 and 9999. Week starts with Monday.
 
 先决条件：年份介于1到9999之间。周从周一开始。
 '''
+import calendar
+week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 def most_frequent_days(year):
-    """
-        List of most frequent days of the week in the given year
-    """
-    return ['Monday'] 
+    result = []
+    first = calendar.weekday(year, 1, 1)
+    last = calendar.weekday(year, 12, 31)
+    if first == last:
+    	result.append(week[first])
+    elif first < last:
+    	for i in range(first, last + 1):
+    		result.append(week[i])
+    else:
+    	for i in range(0, last + 1):
+    		result.append(week[i])
+    	for j in range(first, 7):
+    		result.append(week[j])
+    return result
 
 if __name__ == '__main__':
     # These "asserts" using only for self-checking and not necessary for auto-testing

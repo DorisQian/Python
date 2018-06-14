@@ -59,23 +59,17 @@ Precondition:
 all(len(grid[0]) == len(row) for row in grid)
 
 
-“动物和植物可以自我繁殖，但直到最近才显示出来
-机器可以制作，也可以自我复制......其他类型的自我复制
-机器将被描述，并且一个简单的机械模型，没有电或磁
-并发症，将在那里为观众检查和操作。“
+“动物和植物可以自我繁殖，但直到最近才显示出来机器可以制作，也可以自我复制......其他类型的自我复制
+机器将被描述，并且一个简单的机械模型，没有电或磁并发症，将在那里为观众检查和操作。“
 
 - 爱德华福雷斯特摩尔
 
-在细胞自动机中，摩尔邻域由中心周围的八个细胞组成
-细胞在二维正方形格子。这个社区以Edward F. Moore命名，
+在细胞自动机中，摩尔邻域由中心周围的八个细胞组成细胞在二维正方形格子。这个社区以Edward F. Moore命名，
 细胞自动机理论的先驱。许多棋盘游戏都使用矩形网格
-与正方形作为细胞。对于某些游戏来说，了解游戏的条件非常重要
-芯片相邻单元（图，草案等）的位置和策略。
+与正方形作为细胞。对于某些游戏来说，了解游戏的条件非常重要芯片相邻单元（图，草案等）的位置和策略。
 
-你得到一个状态矩阵的棋盘游戏网格与芯片在二进制矩阵，其中
-1是一个带芯片的单元，0是空单元。你也给了一个单元格的坐标
-以行号和列号的形式（从0开始）。你应该确定有多少芯片
-靠近这个小区。每个细胞都与八个邻居相互作用;那些细胞是
+你得到一个状态矩阵的棋盘游戏网格与芯片在二进制矩阵，其中1是一个带芯片的单元，0是空单元。你也给了一个单元格的坐标
+以行号和列号的形式（从0开始）。你应该确定有多少芯片靠近这个小区。每个细胞都与八个邻居相互作用;那些细胞是
 水平地，垂直地或对角地相邻。
 
 例
@@ -89,21 +83,67 @@ all(len(grid[0]) == len(row) for row in grid)
  （0,0,1,0,0），）
 
 对于单元格的第一个示例坐标是（1，2），正如我们从模式中可以看到的那样
-小区有3个相邻的芯片。对于第二个示例，坐标是（0，0），并且此单元格包含
-一个筹码，但我们只计算邻居，答案是1。
+小区有3个相邻的芯片。对于第二个示例，坐标是（0，0），并且此单元格包含一个筹码，但我们只计算邻居，答案是1。
 
-输入：三个参数。一个网格作为元组元组的元组，其中包含整数（1/0），行号和列
-数字作为整数的单元格。
+输入：三个参数。一个网格作为元组元组的元组，其中包含整数（1/0），行号和列数字作为整数的单元格。
 输出：多少个相邻单元将芯片作为整数。
 
 它是如何使用的：正如我们在开始时提到的，这个想法对开发棋盘游戏很有用
-算法。另外，它对导航软件或地理位置可能有用
-测量软件。
+算法。另外，它对导航软件或地理位置可能有用测量软件。
 '''
 
 def count_neighbours(grid, row, col):
-    return 0
+    longs = len(grid)
+    cell = []
+    if row == 0:
+      if col == 0:
+        for i in range(0, 2):
+          for j in range(0, 2):
+            cell.append(grid[i][j])
+      elif col == longs - 1:
+        for i in range(0, 2):
+          for j in range(longs - 2, longs):
+            cell.append(grid[i][j])
+      else:
+        for i in range(0, 2):
+          for j in range(col - 1, col + 2):
+            cell.append(grid[i][j])
 
+    if row == longs - 1:
+      if col == 0:
+        for i in range(row - 1, row + 1):
+          for j in range(0, 2):
+            cell.append(grid[i][j])
+      elif col == longs - 1:
+        for i in range(row - 1, row + 1):
+          for j in range(col - 1, col + 1):
+            cell.append(grid[i][j])
+      else:
+        for i in range(row - 1, row + 1):
+          for j in range(col - 1 , col + 2):
+            cell.append(grid[i][j])
+
+    if col == 0:
+      if row != 0 and row != longs - 1:
+        for i in range(row - 1, row + 2):
+          for j in range(0, 2):
+            cell.append(grid[i][j])
+
+    if col == longs -1:
+      if row != 0 and row != longs - 1:
+        for i in range(row - 1, row + 2):
+          for j in range(col - 1, col + 1):
+            cell.append(grid[i][j])
+
+    if row != 0 and row != longs - 1 and col !=0 and col != longs -1:
+      for i in range(row - 1, row + 2):
+        for j in range(col - 1, col + 2):
+          cell.append(grid[i][j])
+
+    count = cell.count(1)
+    if grid[row][col] == 1:
+      count -= 1
+    return count
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

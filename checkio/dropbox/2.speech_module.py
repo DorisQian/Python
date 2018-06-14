@@ -48,9 +48,36 @@ HUNDRED = "hundred"
 
 
 def checkio(number):
+  flag = 1
+  result = []
+  while flag:
+    if number < 10:
+      result.append(FIRST_TEN[number -1])
+      flag = 0
+    elif 10 <= number < 20:
+      result.append(SECOND_TEN[number % 10])
+      flag = 0
+    elif 20 <= number < 100:
+      if number % 10 == 0:
+        result.append(OTHER_TENS[int(number / 10 - 2)])
+        flag = 0
+      else:
+        result.append(OTHER_TENS[number // 10 - 2])
+        result.append(FIRST_TEN[int(number % 10 - 1)])
+        number %= 10
+        flag = 0
+    else:
+      if number % 100 == 0:
+        result.append(FIRST_TEN[number // 100 - 1])
+        result.append(HUNDRED)
+        flag = 0
+      else:
+        result.append(FIRST_TEN[number // 100 - 1])
+        result.append(HUNDRED)
+        number %= 100
 
-    #replace this for solution
-    return 'string representation of n'
+  return ' '.join(result)
+
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
@@ -60,4 +87,6 @@ if __name__ == '__main__':
     assert checkio(101) == 'one hundred one', "4th example"
     assert checkio(212) == 'two hundred twelve', "5th example"
     assert checkio(40) == 'forty', "6th example"
+    assert checkio(42) == 'forty two'
     assert not checkio(212).endswith(' '), "Don't forget strip whitespaces at the end of string"
+    assert checkio(100) == 'one hundred'

@@ -93,28 +93,29 @@ all(len(grid[0]) == len(row) for row in grid)
 '''
 
 def count_neighbours(grid, row, col):
-    longs = len(grid)
+    row_long = len(grid)
+    col_long = len(grid[0])
     cell = []
     if row == 0:
       if col == 0:
         for i in range(0, 2):
           for j in range(0, 2):
             cell.append(grid[i][j])
-      elif col == longs - 1:
+      elif col == col_long - 1:
         for i in range(0, 2):
-          for j in range(longs - 2, longs):
+          for j in range(col_long - 2, col_long):
             cell.append(grid[i][j])
       else:
         for i in range(0, 2):
           for j in range(col - 1, col + 2):
             cell.append(grid[i][j])
 
-    if row == longs - 1:
+    if row == row_long - 1:
       if col == 0:
         for i in range(row - 1, row + 1):
           for j in range(0, 2):
             cell.append(grid[i][j])
-      elif col == longs - 1:
+      elif col == col_long - 1:
         for i in range(row - 1, row + 1):
           for j in range(col - 1, col + 1):
             cell.append(grid[i][j])
@@ -124,18 +125,18 @@ def count_neighbours(grid, row, col):
             cell.append(grid[i][j])
 
     if col == 0:
-      if row != 0 and row != longs - 1:
+      if row != 0 and row != row_long - 1:
         for i in range(row - 1, row + 2):
           for j in range(0, 2):
             cell.append(grid[i][j])
 
-    if col == longs -1:
-      if row != 0 and row != longs - 1:
+    if col == col_long -1:
+      if row != 0 and row != row_long - 1:
         for i in range(row - 1, row + 2):
           for j in range(col - 1, col + 1):
             cell.append(grid[i][j])
 
-    if row != 0 and row != longs - 1 and col !=0 and col != longs -1:
+    if row != 0 and row != row_long - 1 and col !=0 and col != col_long -1:
       for i in range(row - 1, row + 2):
         for j in range(col - 1, col + 2):
           cell.append(grid[i][j])
@@ -163,3 +164,9 @@ if __name__ == '__main__':
     assert count_neighbours(((0, 0, 0),
                              (0, 1, 0),
                              (0, 0, 0),), 1, 1) == 0, "Single"
+    assert count_neighbours([[1,0,1,0,1],
+                              [0,1,0,1,0],
+                              [1,0,1,0,1],
+                              [0,1,0,1,0],
+                              [1,0,1,0,1],
+                              [0,1,0,1,0]],5,4) == 2

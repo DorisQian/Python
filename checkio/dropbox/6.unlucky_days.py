@@ -17,9 +17,14 @@ Precondition: 1000 < |year| < 3000
 输入：年份作为整数。
 输出：一年中的黑色星期五数量。
 '''
+import calendar
 
 def checkio(year):
-    return 0
+	week_list = []
+	for month in range(1, 13):
+		week_list.append(calendar.weekday(year,month,13))
+	result = week_list.count(4)
+	return result
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

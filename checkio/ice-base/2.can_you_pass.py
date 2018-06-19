@@ -67,9 +67,24 @@ first != second
 
 
 def can_pass(matrix, first, second):
-    return True or False
+    value = matrix[first[0]][first[1]]
+    points = []
+    for i in range(len(matrix)):
+      for j in range(len(matrix[0])):
+        if matrix[i][j] == 0:
+          points.append((i,j))
+    #print(points)
 
-
+    relate = {}
+    for p1 in points:
+      for p2 in points:
+        if p2[1] == p1[1]:
+          if p2[0] - 1 == p1[0] or p2[0] + 1 == p1[0]:
+            relate.setdefault(p1, set(p2)).update(p2)
+        elif p2[0] == p1[0]:
+          if p2[1] - 1 == p1[1] or p2[1] + 1 == p1[1]:
+            relate[p1] = p2
+    print(relate)
 if __name__ == '__main__':
     assert can_pass(((0, 0, 0, 0, 0, 0),
                      (0, 2, 2, 2, 3, 2),

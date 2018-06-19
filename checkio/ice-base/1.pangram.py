@@ -40,12 +40,13 @@ all(ch in (string.punctuation + string.ascii_letters + " ") for ch in text)
 
 
 def check_pangram(text):
-    '''
-        is the given text is a pangram.
-    '''
-    # your code here
-    return True or False
-
+    alpha_list = [i.lower() for i in text if i.isalpha()]
+    alpha_text = ''.join(alpha_list)
+    alpha = set(alpha_text)
+    if len(alpha) == 26:
+        return True
+    else:
+        return False
 if __name__ == '__main__':
     # These "asserts" using only for self-checking and not necessary for auto-testing
     assert check_pangram("The quick brown fox jumps over the lazy dog."), "brown fox"

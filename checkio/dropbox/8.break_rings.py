@@ -54,14 +54,75 @@ sorted(reduce(set.union, rings)) == list(range(1, max(reduce(set.union, rings)) 
 
 如何使用：该模型专门针对特定条件进行优化。
 使用基本概念，您可以创建一个改善交通网格的模型。
+set update,将整理拆分成个体，添加到set中
 '''
 
+'''
 def break_rings(rings):
-    return 1
+	now = list(rings)
+	count = 0
+	while len(now):
+		number = []
+		for ring in now:
+			number.append(list(ring)[0])
+			number.append(list(ring)[1])
+		set_number = set(number)
+
+		n = max([number.count(i) for i in set_number])
+		refer = dict()
+		max_num = [i for i in set_number if number.count(i) == n]
+		neighbor = []
+		if len(max_num) == 0:
+				continue
+		elif len(max_num) == 1:
+			max_number = max_num[0]
+		else:
+			for i in max_num:
+				relation = [x for x in now if i in x]
+				for x in relation:
+					if list(x)[0] == i:
+						neighbor.append(list(x)[1])
+					else:
+						neighbor.append(list(x)[0])
+				cou = 0
+				for j in neighbor:
+					cou += number.count(j)
+				refer[i] = cou
+			max_number = min([k for k, v in refer.items() if v == min(refer.values())])
+
+		for ring in rings:
+			if max_number in ring and ring in now:
+				now.remove(ring)
+				number.remove(max_number)
+		count += 1
+
+	print(count)
+	return count
+	'''
+import itertools
+def break_rings(rings):
+	link_map = {}
+	for links in rings:
+		for link in links:
+			link_map.setdefault(link, set(links)).update(links)
+
+	for i in range(1, len(link_map)):
+		for destroy_ring in itertools.combinations(link_map.keys(), i):
+			destoryed = set(destroy_ring)
+			count = 0
+			for link in link_map.items():
+				if link[0] not in destoryed:
+					count += len(link[1] - destoryed) - 1
+			if count == 0:
+				return i
+
 
 if __name__ == '__main__':
-    # These "asserts" using only for self-checking and not necessary for auto-testing
-    assert break_rings(({1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {4, 6})) == 3, "example"
-    assert break_rings(({1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4})) == 3, "All to all"
-    assert break_rings(({5, 6}, {4, 5}, {3, 4}, {3, 2}, {2, 1}, {1, 6})) == 3, "Chain"
-    assert break_rings(({8, 9}, {1, 9}, {1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 7}, {8, 7})) == 5, "Long chain"
+	# These "asserts" using only for self-checking and not necessary for auto-testing
+	assert break_rings(({1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {4, 6})) == 3, "example"
+	assert break_rings(({1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4})) == 3, "All to all"
+	assert break_rings(({5, 6}, {4, 5}, {3, 4}, {3, 2}, {2, 1}, {1, 6})) == 3, "Chain"
+	assert break_rings(({8, 9}, {1, 9}, {1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 7}, {8, 7})) == 5, "Long chain"
+	assert break_rings([[1,3],[3,4],[3,5],[4,6],[6,7],[8,3],[8,1],[2,6],[8,4],[9,5],[4,5],[1,7]]) == 5
+	assert break_rings([[1,9],[1,2],[8,5],[4,6],[5,6],[8,1],[3,4],[2,6],[9,6],[8,4],[8,3],[5,7],[9,7],[2,3],[1,7]]) == 5
+	assert break_rings([[3,4],[5,6],[2,7],[1,5],[2,6],[8,4],[1,7],[4,5],[9,5],[2,3],[8,2],[2,4],[9,6],[5,7],[3,6],[1,3]]) == 5

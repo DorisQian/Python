@@ -71,7 +71,7 @@ def can_pass(matrix, first, second):
     points = []
     for i in range(len(matrix)):
       for j in range(len(matrix[0])):
-        if matrix[i][j] == 0:
+        if matrix[i][j] == value:
           points.append((i,j))
     #print(points)
 
@@ -80,12 +80,38 @@ def can_pass(matrix, first, second):
       for p2 in points:
         if p2[1] == p1[1]:
           if p2[0] - 1 == p1[0] or p2[0] + 1 == p1[0]:
-            relate.setdefault(p1, set(p2)).update(p2)
+            re_set = set(relate.get(p1, tuple()))
+            re_set.add(p2)
+            relate[p1] = re_set
         elif p2[0] == p1[0]:
           if p2[1] - 1 == p1[1] or p2[1] + 1 == p1[1]:
-            relate[p1] = p2
+            re_set = set(relate.get(p1, tuple()))
+            re_set.add(p2)
+            relate[p1] = re_set
     print(relate)
+
+    key = relate.keys()
+    if first not in key:
+      return False
+
+    opn = [first]
+    closed = []
+    while len(opn):
+      now = opn[0]
+      opn.remove(now)
+      closed.append(now)
+      friend = relate[now]
+      for f in friend:
+        if f not in closed and f not in opn:
+          opn.append(f)
+
+    if second in closed:
+      return True
+    else:
+      return False
+
 if __name__ == '__main__':
+  
     assert can_pass(((0, 0, 0, 0, 0, 0),
                      (0, 2, 2, 2, 3, 2),
                      (0, 2, 0, 0, 0, 2),
@@ -94,7 +120,8 @@ if __name__ == '__main__':
                      (0, 0, 0, 0, 0, 2),
                      (2, 2, 2, 2, 2, 2),),
                     (3, 2), (0, 5)) == True, 'First example'
-    assert can_pass(((0, 0, 0, 0, 0, 0),
+  
+assert can_pass(((0, 0, 0, 0, 0, 0),
                      (0, 2, 2, 2, 3, 2),
                      (0, 2, 0, 0, 0, 2),
                      (0, 2, 0, 2, 0, 2),
@@ -102,3 +129,7 @@ if __name__ == '__main__':
                      (0, 0, 0, 0, 0, 2),
                      (2, 2, 2, 2, 2, 2),),
                     (3, 3), (6, 0)) == False, 'First example'
+
+assert can_pass(((1,9),(9,1)), (0,1), (1,0)) == False
+
+assert can_pass(((1,7,8,0,5),(7,7,8,5,7),(4,6,5,4,0),(4,6,8,4,7),(1,8,2,1,1),(3,0,4,7,4)), (5,2), (5,4)) == False

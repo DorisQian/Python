@@ -43,14 +43,25 @@ all(char in string.ascii_letters + ' ' for char in line)
 
 
 def cut_sentence(line, length):
-    '''
-    Cut a given sentence, so it becomes shorter than or equal to a given length.
-    '''
-    # your code here
-    return line[:length]
+    if len(line) <= length:
+        return line
+    else:
+        line_list = line.split(' ')
+        count = 0
+        result_list = []
+        for li in line_list:
+            count += len(li) + 1
+            result_list.append(li)
+            if count - 1 > length:
+                result_list.remove(li)
+                return ' '.join(result_list) + '...'
+            if count - 1 == length:
+                return ' '.join(result_list) + '...'
+    
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
+    assert cut_sentence("Hi my name is Alex",10) == "Hi my name..."
     assert cut_sentence("Hi my name is Alex", 4) == "Hi...", "First"
     assert cut_sentence("Hi my name is Alex", 8) == "Hi my...", "Second"
     assert cut_sentence("Hi my name is Alex", 18) == "Hi my name is Alex", "Third"

@@ -28,6 +28,16 @@ How it is used: This is a classical problem for path-finding in graphs -- Yes, t
 Precondition: Outer cells are pits.
 len(labyrinth) == 12
 all(len(row) == 12 for row in labyrinth)
+
+迷宫没有墙，但灌木丛围绕着两侧的路径。 如果一名球员进入灌木丛，他们会输。 迷宫以矩阵形式列出（列表）：1是灌木丛，0是路径的一部分。 迷宫的大小是12 x 12，外部细胞也是灌木丛。 玩家从单元格（1,1）开始。 出口在格（10,10）。 你需要通过迷宫找到一条路线。 玩家只能在四个方向移动 - 南（下[1,0]），北（上[-1,0]），东（右[0,1]），西（左[0，-1]）。 该路线被描述为由不同字符组成的字符串：“S”=南，“N”=北，“E”=东，“W”=西。
+
+开放式迷宫
+
+输入：迷宫图作为列表1和0的列表。
+
+输出：路由为包含“W”，“E”，“N”和“S”的字符串。
+
+它是如何使用的：这是图表中寻找路径的经典问题 - 是的，迷宫可以用图表表示。 它可以在导航软件中用于导航和用于人工智能的电脑游戏。 您可以随心所欲找到自己的方式。 只需将地图划分为方形单元格并标记“不良”单元格即可。
 '''
 #Your code here
 #You can import some modules or create additional functions

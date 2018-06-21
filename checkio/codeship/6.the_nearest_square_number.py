@@ -20,6 +20,15 @@ How it is used: For mathematical analysis.
 
 Precondition:
 0 < number <= 1000000
+
+你有一些数字，你正试图找到最接近的平方数（一个完美的正方形）。 平方数是其平方根是整数的数字。 例如，如果我们从数字8开始，那么附近的两个正方形数字是4（sqrt（4）== 2）和9（sqrt（9）== 3）。 所以答案是9，因为9是最近的。
+
+例
+
+输入：一个数字。
+输出：最近的平方数。
+
+如何使用它：用于数学分析。
 '''
 
 def nearest_square(number):

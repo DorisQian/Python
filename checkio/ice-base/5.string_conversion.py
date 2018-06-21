@@ -3,11 +3,13 @@
 
 - Come on!! Gaffer! Can I just replace a string and that's all.
 
-- No, young man. You can’t “just replace a string”. You should respect your memory cards, even though you have a lot of them. Now sit and think a little bit. How can this string can be replaced in a most efficient way?
+- No, young man. You can’t “just replace a string”. You should respect your memory cards, even though 
+you have a lot of them. Now sit and think a little bit. How can this string can be replaced in a most efficient way?
 
 - Ok ok. As you wish. Now I should respect even my own hardware.
 
-You are given two strings, line1 and line2. Answer, what is the smallest number of operations you need to transform line1 to line2?
+You are given two strings, line1 and line2. Answer, what is the smallest number of operations you need to 
+transform line1 to line2?
 
 Operations are:
 
@@ -50,17 +52,47 @@ Precondition: 0 <= len(line) < 100
 '''
 
 def steps_to_convert(line1, line2):
-    return 0
+    if line1 == line2:
+        return 0
+    if len(line1) == len(line2):
+        count = 0
+        for n in range(len(line1)):
+            if line1[n] != line2[n]:
+                count += 1
+        return count
+    if len(line1) < len(line2):
+        if line1 in line2:
+            return len(line2) - len(line1)
+        else:
+            count = 0
+            for i in range(len(line1)):
+                if line1[i] != line2[i]:
+                    count += 1
+                    line2 = line2[0:i] + line2[i + 1:]
+            return count 
+
+    if len(line1) > len(line2):
+        if line2 in line1:
+            return len(line1) - len(line2)
+        else:
+            count = 0
+            for i in range(len(line1)):
+                if line1[i] != line2[i]:
+                    count += 1
+                    line2 = line2[0:i] + line1[i] + line2[i:]
+            return count
 
 
 if __name__ == "__main__":
     #These "asserts" using only for self-checking and not necessary for auto-testing
     assert steps_to_convert('line1', 'line1') == 0, "eq"
     assert steps_to_convert('line1', 'line2') == 1, "2"
+    assert steps_to_convert('line1', 'line31') == 1
     assert steps_to_convert('line', 'line2') == 1, "none to 2"
     assert steps_to_convert('ine', 'line2') == 2, "need two more"
     assert steps_to_convert('line1', '1enil') == 4, "everything is opposite"
     assert steps_to_convert('', '') == 0, "two empty"
     assert steps_to_convert('l', '') == 1, "one side"
     assert steps_to_convert('', 'l') == 1, "another side"
+    assert steps_to_convert('li3ne', 'line') == 1
     print("You are good to go!")

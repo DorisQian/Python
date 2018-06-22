@@ -60,8 +60,26 @@ Precondition: 0 < N ≤ 20
 增加，概率接近0.5！
 '''
 
+def probability(w, b, k, p, n):
+	if n == 0:
+		a.append((w / k) * p)
+		# print (a)
+		return
+	if w > 0:
+		probability(w - 1, b + 1, k, p * (w / k), n - 1)
+	if b > 0:
+		probability(w + 1, b - 1, k, p * (b / k), n - 1)
+
+
 def checkio(marbles, step):
-    return 0.50
+    global a
+    a = []
+    w = float(marbles.count('w'))
+    b = float(marbles.count('b'))
+    k = len(marbles)
+    probability(w, b, k, 1.0, step - 1)
+    return round(sum(a),2)
+
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

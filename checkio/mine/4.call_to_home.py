@@ -64,13 +64,83 @@ Space-Time Communications Co.在如何计算通话费用方面有几条规定：
 
 如何使用：这个任务将教你如何解析和分析各种
 类型数据。 有时你不需要完整的数据，只能挑出重要的片段。
+  call = list(calls)
+  time = []
+  for n in calls:
+    if n.split(' ')[0] not in same_day:
+      time.append(int(n.split(' ')[-1]))
+      call.remove(n)
+  for s in same_day:
+    count = 0
+    for n in call:
+      if n.split(' ')[0] == s:
+        count += int(n.split(' ')[-1])
+    time.append(count)
+  print(time)
 '''
+def count_call(num):
+  if num % 60 == 0:
+    if num / 60 <= 100:
+      cou = num / 60
+    else:
+      cou = 100 + 2 * (num / 60 - 100)
+  else:
+    time = num // 60 + 1
+    if time <= 100:
+      cou = time
+    else:
+      cou = 100 + 2 * (time - 100)
+  return cou
+
+def count_after(num):
+  if num % 60 == 0:
+    cou = (num / 60 )*2
+  else:
+    cou = 2 * (num / 60 + 1)
+  return cou
+
 def total_cost(calls):
-    return 0
+  date = [d.split(' ')[0] for d in calls]
+  same_day = set([d for d in date if date.count(d) > 1])
+  print(same_day)
+  count = 0
+  call = list(calls)
+  for d in calls:
+    if d.split(' ')[0] not in same_day:
+      count += count_call(int(d.split(' ')[-1]))
+      call.remove(d)
+  for t in same_day:
+    second = 0
+    for c in call:
+      if c.split(' ')[0] == t:
+        if second + int(c.split(' ')[-1]) < 6000:
+          count += count_call(int(c.split(' ')[-1]))
+          second += int(c.split(' ')[-1])
+        elif second > 6000:
+          '''
+          if int(c.split(' ')[-1]) % 60 == 0:
+            a = int(c.split(' ')[-1]) / 60
+          else:
+            a = int(c.split(' ')[-1]) // 60 + 1
+          count += a * 2
+          '''
+          count += count_after(int(c.split(' ')[-1]))
+        elif second == 0 and int(c.split(' ')[-1]) > 6000:
+            count += count_call(int(c.split(' ')[-1]))
+        # elif second + int(c.split(' ')[-1]) > 6000:
+        else:
+          count += count_call(6000 - second)
+          b = int(c.split(' ')[-1]) - (6000 - second)
+          count += count_after(b)
+  print(count)
+  return count
+
+
 
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
+
     assert total_cost(("2014-01-01 01:12:13 181",
                        "2014-01-02 20:11:10 600",
                        "2014-01-03 01:12:13 6009",
@@ -79,6 +149,7 @@ if __name__ == '__main__':
                        "2014-02-05 02:00:00 1",
                        "2014-02-05 03:00:00 1",
                        "2014-02-05 04:00:00 1")) == 4, "Short calls but money..."
+
     assert total_cost(("2014-02-05 01:00:00 60",
                        "2014-02-05 02:00:00 60",
                        "2014-02-05 03:00:00 60",

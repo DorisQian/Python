@@ -50,7 +50,11 @@ Precondition: 0 < N < 5
 用于计算力的运动的数学运算。矩阵是线性代数和矢量图形的基础。
 '''
 def checkio(matrix):
-    return True or False
+    for i in range(len(matrix)):
+        for j in range(len(matrix)):
+            if matrix[i][j] != - matrix[j][i]:
+                return False
+    return True
 
 
 #These "asserts" using only for self-checking and not necessary for auto-testing

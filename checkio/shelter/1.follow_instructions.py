@@ -60,8 +60,17 @@ Precondition: only chars f,b,l and r are allowed
 '''
 
 def follow(instructions):
-    # your code here
-    return (0, 0)
+	result = [0, 0]
+	for i in instructions:
+		if i == 'f':
+			result[1] += 1
+		elif i == 'b':
+			result[1] -= 1
+		elif i == 'l':
+			result[0] -= 1
+		else:
+			result[0] += 1
+	return tuple(result)
 
 
 if __name__ == '__main__':

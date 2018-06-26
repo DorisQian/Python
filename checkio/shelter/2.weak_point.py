@@ -62,12 +62,27 @@ all（len（row）== len（矩阵）用于矩阵中的行）
 '''
 
 def weak_point(matrix):
-    return 0, 0  # [0, 0]
+    row_v = dict()
+    col_v = dict()
+    for i, k in enumerate(matrix):
+        row_v[i] = sum(k)
+
+    min_row = min(row_v.values())
+    row = [i for i, v in row_v.items() if v == min_row]
+
+    for i, k in enumerate(zip(*matrix)):
+        col_v[i] = sum(k)
+
+    min_col = min(col_v.values())
+    col = [i for i, v in col_v.items() if v == min_col]
+    
+    return(min(row), min(col))
+
 
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
-    assert isinstance(weak_point([[1]]), (list, tuple)), "The result should be a list or a tuple"
+    #assert isinstance(weak_point([[1]]), (list, tuple)), "The result should be a list or a tuple"
     assert list(weak_point([[7, 2, 7, 2, 8],
                             [2, 9, 4, 1, 7],
                             [3, 8, 6, 2, 4],

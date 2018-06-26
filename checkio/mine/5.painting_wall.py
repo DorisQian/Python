@@ -42,26 +42,20 @@ Precondition:
 all(0 < x < 2 * 10 ** 18 and 0 < y < 2 * 10 ** 18 for x, y in operations)
 0 < required < 2 * 10 ** 18
 
-尼古拉已经建立了一个简单的机器人绘画的墙壁。墙上有标记
-在每个米和机器人有一个绘画操作列表。每个操作
+尼古拉已经建立了一个简单的机器人绘画的墙壁。墙上有标记在每个米和机器人有一个绘画操作列表。每个操作
 描述了它需要将哪个部分的墙绘成一个范围从一个地方到另一个地方，
 包含边界。例如：操作[1,5]意味着绘制部分
-从1到5米，包括第1和第5部分
-为了将它们放在操作列表中。如果各种操作的范围
+从1到5米，包括第1和第5部分为了将它们放在操作列表中。如果各种操作的范围
 重叠，那么他们必须计算一次。
 
-斯蒂芬已经准备好了一个操作列表，但是我们需要在机器人之前检查它
-执行其绘画计划。你给了墙上的米数
-需要绘画，（被绘的区域可以由非被绘的部分分开）和
-Stephan准备的操作列表，你应该确定操作次数
-从这个列表中需要绘制指定长度的墙。如果它是
-不可能用给定的操作绘制该长度，然后返回-1。
+斯蒂芬已经准备好了一个操作列表，但是我们需要在机器人之前检查它执行其绘画计划。你给了墙上的米数
+需要绘画，（被绘的区域可以由非被绘的部分分开）和Stephan准备的操作列表，你应该确定操作次数
+从这个列表中需要绘制指定长度的墙。如果它是不可能用给定的操作绘制该长度，然后返回-1。
 
 画壁
 输入：两个参数。
 
-应该绘制的墙壁所需的长度，如整数。
-包含范围（包含）的操作列表为两个列表
+应该绘制的墙壁所需的长度，如整数。包含范围（包含）的操作列表为两个列表
 整数。
 输出：最小操作数。如果你不能足够的油漆
 给定操作的长度，返回-1。
@@ -69,11 +63,71 @@ Stephan准备的操作列表，你应该确定操作次数
 提示：要处理列表的开始，可以尝试运行二分查找。
 如何使用：这个技能组通常用于计算机模拟。
 '''
-
+'''
 def checkio(required, operations):
+    length = 0
+    ope = []
+    for o in operations:
+    	if len(ope):
+    		flag = 0
+    		for before in ope:
+    			if o[0] < before[1] and o[1] > before[1]:
+    				o[0] = before[1] + 1
+
+    			if o[1] < before[1] and o[0] < before[0]:
+    				o[1] = before[0] - 1
+
+    			if o[0] > before[0] and o[1] < before[1]:
+    				flag = 1
+    				continue
+    			#if o[1] > before[0]:
+    				#if o not in ope:
+    					#ope.append(o)
+    		#if o not in ope:
+    			#ope.append(o)
+    		if flag == 0:
+    			ope.append(o)
+    	else:
+    		ope.append(o)
+    print(ope)
+    pic = []
+    for o in ope:
+    	pic.append(o[1] - o[0] + 1)
+    	length += o[1] - o[0] + 1
+    print(length, pic)
+
+    if required > length:
+    	return -1
+    else:
+    	#flag = 1
+    	count = 0
+    	while required:
+    		required -= max(pic)
+    		count += 1
+    		if required < 0:
+    			break
+    	print(count)
+    	return count
+
+'''
+def checkio(num, data):
+    painted = []
+    for k, i in enumerate(data):
+        painted.append(i)
+        painted.sort(key=lambda i: i[0])
+        j = 0
+        for l in range(len(painted) - 1):
+            if painted[j][1] >= painted[j + 1][0]:
+                painted[j][1] = max(painted[j][1], painted[j + 1][1])
+                painted.pop(j + 1)
+            else:
+                j += 1
+        length = 0
+        for l in painted:
+            length += l[1] - l[0] + 1
+        if length >= num:
+            return k + 1
     return -1
-
-
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
     assert checkio(5, [[1, 5], [11, 15], [2, 14], [21, 25]]) == 1, "1st"
@@ -82,3 +136,4 @@ if __name__ == '__main__':
     assert checkio(16, [[1, 5], [11, 15], [2, 14], [21, 25]]) == 4, "4th"
     assert checkio(21, [[1, 5], [11, 15], [2, 14], [21, 25]]) == -1, "not enough"
     assert checkio(1000000011, [[1, 1000000000], [11, 1000000010]]) == -1, "large"
+    assert checkio(5,[[1,2],[20,30],[25,28],[5,10],[4,21],[1,6]]) == 2

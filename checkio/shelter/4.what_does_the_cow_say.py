@@ -45,43 +45,6 @@ Output: The result for the console as a string.
 Hint: Read python docs (2.7, 3.3) about formatting styles (str.format and %). Notice for r before 
 the string. It is a raw string and they use different rules for interpreting backslash escape sequences.
 
-Example:
-
-cowsay('Checkio rulezz') == r'''
- ________________
-< Checkio rulezz >
- ----------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-'''
-cowsay('A longtextwithonlyonespacetofittwolines.') == r'''
- ________________________________________
-/ A                                      \
-\ longtextwithonlyonespacetofittwolines. /
- ----------------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-'''
-
-cowsay('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.') == r'''
- _________________________________________
-/ Lorem ipsum dolor sit amet, consectetur \
-| adipisicing elit, sed do eiusmod tempor |
-| incididunt ut labore et dolore magna    |
-\ aliqua.                                 /
- -----------------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-'''
 How it is used: The original Cowsays are written in the Perl programming language, and as such are easily adaptable to system tasks in Unix. They can perform functions such as telling users their home directories are full, that they have new mail, etc. Now you will write your own realisation for this classic unix program. This concept can teach you how to prepare and format text for the console output.
 
 Precondition: 0 < len(text) < 858;
@@ -134,13 +97,87 @@ Cowsay控制台程序在某些情况下有奇怪的行为，这种情况在这�
 提示：阅读关于格式化样式（str.format和％）的python文档（2.7,3.3）。注意r之前
 字符串。它是一个原始字符串，它们使用不同的规则来解释反斜杠转义序列。
 
-它是如何使用的：最初的Cowsays是用Perl编程语言编写的，因此很容易适应Unix中的系统任务。他们可以执行诸如告诉用户他们的主目录已满，他们有新邮件等功能。现在您将为这个经典的unix程序编写自己的实现。这个概念可以教你如何为控制台输出准备和格式化文本。
+它是如何使用的：最初的Cowsays是用Perl编程语言编写的，因此很容易适应Unix中的系统任务。
+他们可以执行诸如告诉用户他们的主目录已满，他们有新邮件等功能。现在您将为这个经典的unix程
+序编写自己的实现。这个概念可以教你如何为控制台输出准备和格式化文本。
 
 先决条件：0 <len（text）<858;
 文本不能只包含空格;
 文本只包含ASCII字母，数字和标点符号。
 '''
 
+
+'''
+
+def cowsay(text):
+    length = len(text)
+    if length < 40:
+        result = ' ' + '_' * (length +2) + '\n' \
+                + '< ' + text + ' >' + '\n' \
+                + ' ' + '-' * (length+2)  \
+                + COW
+    else:       
+        word = text.split(' ')
+        row_list = []
+        while len(word):
+            len_row = 0
+            length = 0
+            for w in word:
+                length += len(w) + 1
+            if length - 1 <= 38:
+                row_list.append(' '.join(word))
+                word = []
+            else:
+                row = ''
+                for n in word:
+                    len_row += len(n) + 1
+                    row += n + ' '
+                    # word.remove(n)
+                    if len_row >= 39:
+                        row = row.rstrip(n + ' ')
+                        row_list.append(row)
+                        for i in range(len(word) - 1):
+                            word.pop(i)
+                        break
+
+        result = ' ' + '_' * 40 + '\n'
+        for i in range(len(row_list)):
+            if i == 0:
+                result += '/' + ' ' + row_list[i] + ' ' * (39- len(row_list[i])) + '\\' + '\n'
+            elif i == len(row_list) - 1:
+                result += '\\' + ' ' + row_list[i] + ' ' * (39- len(row_list[i])) + '/' + '\n'
+            else:
+                result += '|' + ' ' + row_list[i] + ' ' * (38- len(row_list[i])) + '|' + '\n'
+        result += ' ' + '-' * 40 + COW
+
+    return result
+    #return 'Cow say "%s"' % text
+'''
+"""
+import re
+from functools import reduce
+ 
+
+def cowsay(text):
+
+    lst = re.findall(r'''(?x) (?P<cut> [^\s]{39} ) \s?
+                     | (?= ( .{1,39} ) (?: \s | $ ) ) \2 \s?''',
+                    re.sub(r'\s+', r' ', text))
+    print(re.sub(r'\s+', r' ', text))
+    print(lst)
+    lst = [ match for el in lst for match in el if match ]
+    print(lst)
+    just = max(len(s) for s in lst)
+    lst = list(map(lambda s: s.ljust(just), lst))
+    forms = [ '< {0} >\n' ] if len(lst) == 1 else \
+            [ '/ {0} \\\n' ] + [ '| {0} |\n' ]*(len(lst)-2) + ['\\ {0} /\n' ]
+    print(forms)
+    res = ['\n '+(just+2)*'_'+'\n'] + \
+            [fmt.format(el) for (fmt, el) in zip(forms, lst)] + [' '+(just+2)*'-']
+    return reduce(lambda acc,v: acc + v, res, '') + COW
+
+"""
+import re
 COW = r'''
         \   ^__^
          \  (oo)\_______
@@ -148,9 +185,53 @@ COW = r'''
                 ||----w |
                 ||     ||
 '''
+TOP = '_'
+BOTTOM = '-'
+BORDERS = '/\\|'
+
+MAX_ROW = 39
+
+
+def make_rows(text):
+    rows, num = [''], 0
+    words = text.split(' ')
+    for i, w in enumerate(words):
+        # slice words that have over MAX_ROW characters
+        if len(w) > MAX_ROW:
+            words.insert(words.index(w) + 1, w[MAX_ROW:])
+            w = w[:MAX_ROW]
+        # if the word is first, don't append row
+        if len(rows[num]) + len(w) >= MAX_ROW and i:
+            num += 1
+            rows.append('')
+        rows[num] += w if not rows[num] else ' ' + w
+    return rows
+
 
 def cowsay(text):
-    return 'Cow say "%s"' % text
+    text = re.sub('\s+', ' ', text)
+    if len(text) <= MAX_ROW:
+        quote = r'''
+ {}
+< {} >
+ {}'''
+        width = len(text) + 2
+    else:
+        quote = r'''
+ {}
+{}
+ {}'''
+        rows = make_rows(text)
+        width = max(len(x) for x in rows) + 2
+        for i, row in enumerate(rows):
+            if i == 0:
+                rows[i] = ' '.join([BORDERS[0], rows[i].ljust(width - 2), BORDERS[1]])
+            elif i == len(rows) - 1:
+                rows[i] = ' '.join([BORDERS[1], rows[i].ljust(width - 2), BORDERS[0]])
+            else:
+                rows[i] = ' '.join([BORDERS[2], rows[i].ljust(width - 2), BORDERS[2]])
+        text = '\n'.join(rows)
+    return quote.format(TOP * width, text, BOTTOM * width) + COW
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
@@ -199,3 +280,4 @@ if __name__ == '__main__':
     cowsay_many_lines = cowsay('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do '
                                 'eiusmod tempor incididunt ut labore et dolore magna aliqua.')
     assert cowsay_many_lines == expected_cowsay_many_lines, 'Wrong answer:\n%s' % cowsay_many_lines
+

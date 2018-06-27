@@ -62,11 +62,29 @@ all(all(0 < x < 100 for x in ch) for ch in chips)
 前提：
 len（筹码）== 6
 全部（全部（对于芯片中的ch，0 <x <100））
+参照其他github
 '''
+import itertools
+def check(chips, chip_order, rotation_order):
+    total = 0
+    for i in range(len(chips)):
+        chip = chips[chip_order[i]]
+        rotation = rotation_order[i]
+        pre_chip = chips[chip_order[i-1]]
+        pre_rotation = rotation_order[i-1]
+        if chip[rotation[0]] != pre_chip[pre_rotation[1]]:
+            return 0
+        total += chip[rotation[2]]
+    return total
 
 def checkio(chips):
+    per = set(r if r[0] < r[-1] else r[::-1] for r in itertools.permutations(range(1, 6), 5))
+    chip_orders = [[0] + list(r) for r in per]
 
-    return 0
+    rotation = itertools.permutations(range(3), 3)
+    rotation_orders = list(itertools.product(rotation, repeat=6))
+
+    return max(check(chips, chip_order, rotation_order) for chip_order in chip_orders for rotation_order in rotation_orders)
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

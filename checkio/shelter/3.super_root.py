@@ -41,10 +41,21 @@ super_root（81）== 3.504339593597054
 
 前提：
 1≤数字≤10 ** 10
+
+二分法
 '''
 
+
 def super_root(number):
-    return 1
+    x = 5
+    delta = 5
+    while abs(x ** x - number) > 0.001:
+        delta /= 2
+        if x ** x < number:
+            x += delta
+        else:
+            x -= delta
+    return x
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

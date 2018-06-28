@@ -50,7 +50,7 @@ Python的作者Guido van Rossum是我们最着名的玩家之一。 他正在写
 '''
 
 def checkio(number):
-    return 1
+    return bin(number).count('1')
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

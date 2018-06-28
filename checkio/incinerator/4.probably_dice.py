@@ -68,9 +68,12 @@ Preconditions:
 被描述为其他事件的组合。 在这种情况下，你正在组合几个骰子
 成为一个共同的重大兽人国王的重大损害。
 '''
-
+import itertools
 def probability(dice_number, sides, target):
-    return 0.0
+    count = len(list(filter(lambda x: sum(x) == target,
+                 itertools.product(range(1, min(sides + 1, target)), repeat = dice_number))))
+    
+    return count / (sides ** dice_number)
 
 if __name__ == '__main__':
     #These are only used for self-checking and are not necessary for auto-testing

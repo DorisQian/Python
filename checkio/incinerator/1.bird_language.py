@@ -58,7 +58,26 @@ A phrase always has the translation.
 VOWELS = "aeiouy"
 
 def translate(phrase):
-    return phrase
+    word = phrase.split(' ')
+    print(word)
+    result = []
+    for w in word:
+    	re = []
+    	line = iter(w)
+    	mark = 0
+    	for i in line:
+    		if i in VOWELS:
+    			if mark == 1:
+    				mark = 0
+    				line.__next__()
+    			else:
+    				re.append(i)
+    				mark = 1
+    		else:
+    			re.append(i)
+    			line.__next__()
+    	result.append(''.join(re))
+    return ' '.join(result)
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

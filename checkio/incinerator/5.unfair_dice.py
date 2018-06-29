@@ -73,8 +73,29 @@ die B击败了die C，但仍然击败了die A（例如上面的前三个例子�
 这些被称为不灵敏的骰子。
 '''
 
+import itertools
+def probility(enemy_die, ans):
+    s = 0
+    for i in ans:
+        ss = 0
+        for j in enemy_die:
+            if i > j:
+                ss += 1
+            elif i < j:
+                ss -= 1
+        s += ss
+    return s
+
 def winning_die(enemy_die):
+    total = sum(enemy_die)
+    number = len(enemy_die)
+    m = max(enemy_die)
+    for i in itertools.combinations_with_replacement(range(1, 18), number):
+        if sum(i) == total:
+            if probility(enemy_die,i) > 0:
+                return i
     return []
+    
 
 if __name__ == '__main__':
     #These are only used for self-checking and not necessary for auto-testing

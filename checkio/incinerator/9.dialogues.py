@@ -45,6 +45,12 @@ Precondition: 2 interlocutors.
 '''
 
 VOWELS = "aeiou"
+all_msg = []
+
+
+def loading(kind, message):
+	all_msg.append((kind, message))
+
 
 class Chat:
 	def connect_human(self, human):
@@ -54,31 +60,31 @@ class Chat:
 		self.robot = robot
 
 	def show_human_dialogue(self):
-		man_said = '%s said: %s' % (self.human.name, self.human.man_message)
-		robot_said = '%s said: %s' % (self.robot.name, self.robot.ro_message)
-		return (man_said + '\n' + robot_said)
+		message = ''
+		for msg in all_msg:
+			if msg[0] == 'man':
+				message += '%s said: %s' % (self.human.name, msg[1]) + '\n'
+			elif msg[0] == 'robot':
+				message += '%s said: %s' % (self.robot.name, msg[1]) + '\n'
+		print(message)
+		return message.rstrip('\n')
 
 	def show_robot_dialogue(self):
-		man_msg = self.human.man_message.lower()
-		man_mark = ''
-		for word in man_msg:
-			if word in VOWELS:
-				man_mark += '0'
-			else:
-				man_mark += '1'
-		man_said = '%s said: %s' % (self.human.name, man_mark)
-
-		robot_msg = self.robot.ro_message.lower()
-		robot_mark = ''
-		for word in robot_msg:
-			if word in VOWELS:
-				robot_mark += '0'
-			else:
-				robot_mark += '1'
-		robot_said = '%s said: %s' % (self.robot.name, robot_mark)
-
-		return (man_said + '\n' + robot_said)
-
+		message = ''
+		for msg in all_msg:
+			said = msg[1].lower()
+			mark = ''
+			for word in said:
+				if word in VOWELS:
+					mark += '0'
+				else:
+					mark += '1'
+			if msg[0] == 'man':
+				message += '%s said: %s' % (self.human.name, mark) + '\n'
+			elif msg[0] == 'robot':
+				message += '%s said: %s' % (self.robot.name, mark) + '\n'
+		print(message)
+		return message.rstrip('\n')
 
 
 class Human:
@@ -87,6 +93,8 @@ class Human:
 
 	def send(self, message):
 		self.man_message = message
+		loading('man', self.man_message)
+
 
 class Robot:
 	def __init__(self, name):
@@ -94,21 +102,38 @@ class Robot:
 
 	def send(self, message):
 		self.ro_message = message
-
+		loading('robot', self.ro_message)
 
 if __name__ == '__main__':
-    #These "asserts" using only for self-checking and not necessary for auto-testing
+	#These "asserts" using only for self-checking and not necessary for auto-testing
 
-    chat = Chat()
-    karl = Human("Karl")
-    bot = Robot("R2D2")
-    chat.connect_human(karl)
-    chat.connect_robot(bot)
-    karl.send("Hi! What's new?")
-    bot.send("Hello, human. Could we speak later about it?")
-    assert chat.show_human_dialogue() == """Karl said: Hi! What's new?
+	chat = Chat()
+	karl = Human("Karl")
+	bot = Robot("R2D2")
+	chat.connect_human(karl)
+	chat.connect_robot(bot)
+	karl.send("Hi! What's new?")
+	bot.send("Hello, human. Could we speak later about it?")
+	
+	assert chat.show_human_dialogue() == """Karl said: Hi! What's new?
 R2D2 said: Hello, human. Could we speak later about it?"""
-    assert chat.show_robot_dialogue() == """Karl said: 101111011111011
+
+	assert chat.show_robot_dialogue() == """Karl said: 101111011111011
 R2D2 said: 10110111010111100111101110011101011010011011"""
 
-    print("Coding complete? Let's try tests!")
+	# print("Coding complete? Let's try tests!")
+
+	chat = Chat()
+	bob = Human('Bob')
+	ann = Robot('Ann-1244c')
+	chat.connect_human(bob)
+	chat.connect_robot(ann)
+	bob.send("Hi, Ann! Is your part of work done?")
+	ann.send("Hi, Bob. Sorry, I need a few more hours. Could you wait, please?")
+	bob.send("Ok. But hurry up, please. It's important.")
+	ann.send("Sure, thanks.")
+
+	assert chat.show_human_dialogue() == """Bob said: Hi, Ann! Is your part of work done?
+Ann-1244c said: Hi, Bob. Sorry, I need a few more hours. Could you wait, please?
+Bob said: Ok. But hurry up, please. It's important.
+Ann-1244c said: Sure, thanks."""

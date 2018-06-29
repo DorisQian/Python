@@ -42,9 +42,8 @@ def morse_decoder(code):
     	for a in word.split(' '):
     		result += MORSE[a]
     	result += ' '
-    re = result.rstrip(' ').split(' ')
-    re[0] = re[0].title()
-    return ' '.join(re)
+    re = result.rstrip(' ').capitalize()
+    return re
 
 if __name__ == '__main__':
     print("Example:")
@@ -54,4 +53,6 @@ if __name__ == '__main__':
     assert morse_decoder("... --- -- .   - . -..- -") == "Some text"
     assert morse_decoder("..--- ----- .---- ---..") == "2018"
     assert morse_decoder(".. -   .-- .- ...   .-   --. --- --- -..   -.. .- -.--") == "It was a good day"
+    assert morse_decoder("...- ...-- .-. -.--   .---- ----- -. --.   ... - .-. .---- -. --.   .-- .---- - ....   ... ----- -- ...--   -. ..- -- -... ...-- .-. .....")\
+    == "V3ry 10ng str1ng w1th s0m3 numb3r5"
     print("Coding complete? Click 'Check' to earn cool rewards!")

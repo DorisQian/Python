@@ -69,9 +69,55 @@ all(5 ≤ len(row) ≤ 20 for row in grid)
 这当然假定生物信息学可以用于经典生物学。
 '''
 
-def healthy(grid):
-    return 0, 0
+from itertools import product
 
+'''
+def healthy(grid):
+    def get_size(x, y):
+        i = 1
+        neighbor = lambda i : [grid[x + dx][y + dy]
+                               for dx, dy in product(range(-i, i + 1), repeat=2)
+                               if 0 <= x + dx < length and 0 <= y + dy < width
+                               if i - i < abs(dx) + abs(dy) <= i]
+        while all(neighbor(i)):
+            i += 1
+        return i if not any(neighbor(i)) else 0
+
+    length = len(grid)
+    width = len(grid[0])
+    colonies = sorted((get_size(x, y), x, y)
+                      for x in range(length)
+                      for y in range(width)
+                      if grid[x][y])
+    return colonies[-1][1:] if colonies and colonies[-1][0] else (0, 0)
+'''
+def get_size(x, y, grid):
+    i = 1
+    def get_list(i):
+        neighbor = []
+        for dx, dy in product(range(-i, i+1), repeat=2):
+            if 0 <= x + dx < len(grid) and 0 <= y + dy < len(grid[0]):
+                if i - 1 < abs(dx) + abs(dy) <= i:
+                    neighbor.append(grid[x+dx][y+dy])
+        return neighbor
+    while all(get_list(i)):
+        i += 1
+    if not any(get_list(i)):
+        return i
+    else:
+        return 0
+
+def healthy(grid):
+    colonies = []
+    for x in range(len(grid)):
+        for y in range(len(grid[0])):
+            if grid[x][y]:
+                colonies.append(((get_size(x, y, grid)), x, y))
+    colony = sorted(colonies)
+    if colony and colony[-1][0]:
+        return colony[-1][1:]
+    else:
+        return (0, 0)
 
 if __name__ == '__main__':
     # These "asserts" using only for self-checking and not necessary for auto-testing
@@ -98,6 +144,7 @@ if __name__ == '__main__':
                    (0, 1, 1, 1, 0, 0, 1, 0),
                    (0, 0, 1, 0, 0, 1, 1, 1),
                    (0, 0, 0, 0, 0, 0, 1, 0),)), [[3, 2]])
+
     check(healthy(((0, 0, 0, 0, 0, 0, 2, 0),
                    (0, 0, 0, 2, 2, 2, 2, 2),
                    (0, 0, 1, 0, 0, 0, 2, 0),

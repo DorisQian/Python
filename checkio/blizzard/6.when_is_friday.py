@@ -1,8 +1,12 @@
 '''
-Friday is an awesome day. It's the end of the week after which you can just relax and attend to all of the things you've been pushing away. It's really good to know how many days you still have to wait, isn't it?
+Friday is an awesome day. It's the end of the week after which you can just relax and attend to all of the 
+things you've been pushing away. It's really good to know how many days you still have to wait, isn't it?
 
-Your task is to write a function that will count how many days are left from a certain date to Friday. The argument will be a particular date in a string format looking like this: 'dd.mm.yyyy', where 'dd' - day, 'mm' - month, and 'yyyy' - year.
-For example, if that given day is Thursday, then the answer will be 1. If that day is Monday, the result is 4. And if that day is Friday, the function should return 0.
+Your task is to write a function that will count how many days are left from a certain date to Friday. 
+The argument will be a particular date in a string format looking like this: 'dd.mm.yyyy', where 'dd' - day, 
+'mm' - month, and 'yyyy' - year.
+For example, if that given day is Thursday, then the answer will be 1. If that day is Monday, the result is 4. 
+And if that day is Friday, the function should return 0.
 
 example
 
@@ -20,10 +24,16 @@ How it is used: The ability of working with dates can be a very useful skill in 
 Precondition:
 1 <= year <= 3000
 '''
-
+import calendar
 def friday(day):
     #replace this for solution
-    return 0
+    date = day.split('.')
+    week = calendar.weekday(int(date[2]), int(date[1]), int(date[0]))
+
+    if week <= 4:
+    	return 4 - week
+    else:
+    	return week + 1
 
 if __name__ == '__main__':
     print("Example:")

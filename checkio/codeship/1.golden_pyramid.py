@@ -72,12 +72,12 @@ all(all(0 < x < 10 for x in row) for row in pyramid)
 '''
 
 def count_gold(pyramid):
-    """
-    Return max possible sum in a path from top to bottom
-    """
-
-    #replace this for solution
-    return 0
+    result = list(pyramid[-1])
+    for line in pyramid[-2:: -1]:
+        for i, val in enumerate(line):
+            result[i] = val + max(result[i], result[i + 1])
+        result.pop()
+    return result[0]
 
 
 if __name__ == '__main__':

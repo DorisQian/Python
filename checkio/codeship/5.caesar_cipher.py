@@ -23,7 +23,9 @@ Precondition:
 -26 < delta < 26
 
 ！ 当我们收到加密文本时，我们注意到有一些额外的符号！
-你的任务是使用凯撒密码解密秘密信息（包括文本，空白字符和特殊字符，如“！”，“＆”，“？”等），其中每个字母被替换为另一个字母 距离。 例如（“a b c”，3）==“d e f”。 你也应该忽略/删除所有特殊字符。 所以像这样的消息（“！d！[e]＆f *”，-3）将被解密，就像“a b c”一样，仅此而已。
+你的任务是使用凯撒密码解密秘密信息（包括文本，空白字符和特殊字符，如“！”，“＆”，“？”等），其中每个字母被替换为另一个字母 
+距离。 例如（“a b c”，3）==“d e f”。 你也应该忽略/删除所有特殊字符。 所以像这样的消息（“！d！[e]＆f *”，-3）将被解密，
+就像“a b c”一样，仅此而已。
 
 例
 
@@ -34,12 +36,21 @@ Precondition:
 '''
 
 def to_decrypt(cryptotext, delta):
-    #replace this for solution
-    return cryptotext
+    text = ''.join([s for s in cryptotext if s.isalpha() or s == ' '])
+    print(text)
+    #result = ''.join([chr(ord(s) + delta) for s in text if s.isalpha()])
+    result = ''
+    for s in text:
+        if s.isalpha():
+            result += chr(ord(s) + delta)
+        else:
+            result += s
+    print(result)
+    return result
 
 if __name__ == '__main__':
-    print("Example:")
-    print(to_decrypt('abc', 10))
+    #print("Example:")
+    #print(to_decrypt('abc', 10))
 
     #These "asserts" using only for self-checking and not necessary for auto-testing
     assert to_decrypt("!d! [e] &f*", -3) == "a b c"

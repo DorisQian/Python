@@ -54,7 +54,7 @@ Precondition:
     #cols = ['a','b','c','d','e','f','g', 'h']
     #rows = ['1', '2', '3', '4', '5', '6', '7', '8']
 '''
-
+'''
 from itertools import product
 def place_queens(placed):
     threats = []
@@ -90,19 +90,92 @@ def place_queens(placed):
 
     threats = []
     result = []
-    while 
-    now = copy_positon[0]
-    copy_positon.remove(now)
+    #while
+    #now = copy_positon[0]
+    #copy_positon.remove(now)
 
-    for re in copy_positon:
-        threat = threation(re)
-        for r in copy_positon:
-            if r in threat and r != re:
-                continue
-            else:
-                result.append(r)
-    print(result)
-    return result
+    #for re in copy_positon:
+        #threat = threation(re)
+        #for r in copy_positon:
+            #if r in threat and r != re:
+                #continue
+            #else:
+                #result.append(r)
+    #print(result)
+    #return result
+'''
+
+from itertools import combinations, product
+
+
+def place_queens(placed):
+    cols = 'abcdefgh'
+    rows = '12345678'
+
+    def diagonal(point):
+        threats = []
+        for i in range(1, 9):
+            move = product((-i, i), repeat=2)
+            for m in move:
+                col = chr(ord(point[0]) + m[0])
+                row = int(point[1]) + m[1]
+                if 'a' <= col <= 'h' and 1 <= row <= 8:
+                    threats.append(str(col) + str(row))
+        return threats
+
+    def judge(*args):
+        for com in args:
+            col = set([c[0] for c in com])
+            row = set([r[1] for r in com])
+            if len(col) != length or len(row) != length:
+                return False
+            for co in com:
+                dia_th = diagonal(co)
+                for dt in dia_th:
+                    if dt in args:
+                        return False
+        return True
+
+    length = len(placed)
+    flag = judge(placed)
+    if not flag:
+        return set()
+
+    for w in placed:
+        if w[0] in cols:
+            cols = cols.replace(w[0], '')
+        if w[1] in rows:
+            rows = rows.replace(w[1], '')
+    print(cols, rows)
+
+    no_threat = [s[0] + s[1] for s in product(cols, rows)]
+    #print(no_threat)
+    for w in placed:
+        dia_threats = diagonal(w)
+        for diag in dia_threats:
+            if diag in no_threat:
+                no_threat.remove(diag)
+    print(no_threat)
+
+    leng = 8 - length
+    if leng == 1:
+        placed.add(no_threat[0])
+        return placed
+    else:
+        combine = list(combinations(no_threat, leng))
+        combines = combine.copy()
+        for com in combine:
+            flag = judge(com)
+            if not flag:
+                combines.remove(com)
+    #print(combines)
+        if combines:
+            for c in combines[0]:
+                placed.add(c)
+            print(placed)
+            return placed
+        else:
+            return set()
 
 
 if __name__ == '__main__':
@@ -147,3 +220,4 @@ if __name__ == '__main__':
 
     assert checker(place_queens, {"b2", "c4", "d6", "e8"}, True), "1st Example"
     assert checker(place_queens, {"b2", "c4", "d6", "e8", "a7", "g5"}, False), "2nd Example"
+    assert checker(place_queens, {"a5", "b7", "c1", "e2", "f8", "g6", "h3"}, True)

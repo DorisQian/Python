@@ -31,8 +31,13 @@ Precondition:
 '''
 
 def middle(text):
-    #replace this for solution
-    return text
+    length = len(text)
+    if length == 1:
+        return text
+    elif length % 2 != 0:
+        return text[length // 2]
+    else:
+        return text[length // 2 - 1] + text[length // 2]
 
 if __name__ == '__main__':
     print("Example:")

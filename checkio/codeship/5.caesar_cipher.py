@@ -37,15 +37,18 @@ Precondition:
 
 def to_decrypt(cryptotext, delta):
     text = ''.join([s for s in cryptotext if s.isalpha() or s == ' '])
-    print(text)
-    #result = ''.join([chr(ord(s) + delta) for s in text if s.isalpha()])
     result = ''
     for s in text:
         if s.isalpha():
-            result += chr(ord(s) + delta)
+            asc = ord(s) + delta
+            if asc > 122:
+                result += chr(asc - 26)
+            elif asc < 97:
+                result += chr(asc + 26)
+            else:
+                result += chr(asc)
         else:
             result += s
-    print(result)
     return result
 
 if __name__ == '__main__':

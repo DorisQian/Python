@@ -87,19 +87,28 @@ __repr __（）
 
 class Building:
     def __init__(self, south, west, width_WE, width_NS, height=10):
-        raise NotImplementedError
+        self.south = south
+        self.west = west
+        self.width = width_WE
+        self.length = width_NS
+        self.height = height
 
     def corners(self):
-        raise NotImplementedError
+        corner = dict()
+        corner['south-west'] = [self.south, self.west]
+        corner['north-west'] = [self.south + self.length, self.west]
+        corner['south-east'] = [self.south, self.west + self.width]
+        corner['north-east'] = [self.south + self.length, self.west + self.width]
+        return corner
 
     def area(self):
-        raise NotImplementedError
+        return self.length * self.width
 
     def volume(self):
-        raise NotImplementedError
+        return self.length * self.width * self.height
 
     def __repr__(self):
-        raise NotImplementedError
+        return ('Building({0.south}, {0.west}, {0.width}, {0.length}, {0.height})'.format(self))
 
 
 if __name__ == '__main__':

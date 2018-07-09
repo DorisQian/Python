@@ -42,10 +42,7 @@ all(0 < len(row) < 10 for row in matrix)
 from typing import List
 
 def checkio(data: List[List[int]]) -> List[List[int]]:
-
-    #replace this for solution
-    return data
-
+    return [list(n) for n in zip(*data)]
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
     print("Example:")

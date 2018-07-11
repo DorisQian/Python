@@ -28,9 +28,24 @@ Precondition: All data are correct.
 它如何使用：用于创建唯一对象作为单个实例。
 '''
 
-class Capital:
-    def __init__(self, city_name):
-        raise NotImplementedError
+
+class Singleton(object):
+	_instance = None
+	def __new__(cls, *arg, **kw):
+		if not cls._instance:
+			cls._instance = super(Singleton, cls).__new__(cls)
+		return cls._instance
+
+class Capital(Singleton):
+	first_init = True
+	def __init__(self, city_name):
+		if self.first_init:
+			self.city_name = city_name
+			self.first_init = False
+
+	def name(self):
+		return self.city_name
+        
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

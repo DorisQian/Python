@@ -41,7 +41,16 @@ Precondition:
 '''
 
 def checkio(pattern, image):
-    return []
+    pal = len(pattern)
+    pan = len(pattern[0])
+    iml = len(image)
+    imn = len(image[0])
+    for i in range(iml - pal + 1):
+      for j in range(imn - pan + 1):
+        if all(image[i+k][j:j+pan] == pattern[k] for k in range(pal)):
+          for z in range(pal):
+            image[i+z][j:j+pan] = [val + 2 for val in image[i+z][j:j+pan]]
+    return image
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':

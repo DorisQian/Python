@@ -34,14 +34,20 @@ Precondition: Only [a-z], [A-Z], [0-9], ".", ":", "!", "?", "$", "%", "@" in the
 
 class HackerLanguage:
 	secret = str()
+	current = str()
 	def write(self, text):
 		self.current = text
 		self.secret += ''.join([bin(ord(s))[2:] if s.isalpha() else s for s in text])
+		self.secret = self.secret.replace(' ', '1000000')
+		#print(self.secret)
 
 	def delete(self, number):
-		word = self.current[-number:]
-		length = len(''.join([bin(ord(s))[2:] if s.isalpha() else s for s in word]))
-		self.secret = self.secret[:len(self.secret)-length]
+		if not self.current:
+			pass
+		else:
+			word = self.current[-number:]
+			length = len(''.join([bin(ord(s))[2:] if s.isalpha() else s for s in word]))
+			self.secret = self.secret[:len(self.secret)-length]
 
 	def send(self):
 		#print(self.secret)
@@ -51,13 +57,20 @@ class HackerLanguage:
 		word = str()
 		while message:
 			if len(message) < 7:
-				return message
+				word += message
+				return word
 			else:
 				current = message[:7]
-				if current.isdigit(): 
+				if current == '1000000':
+					current = message[:6]
 					word += chr(int(current, 2))
 					message = message[7:]
-				#else: 
+				elif current.isdigit():
+					word += chr(int(current, 2))
+					message = message[7:]
+				else:
+					word += current[0]
+					message = message[1:]
 		print(word)
 		return word
 
@@ -65,18 +78,28 @@ class HackerLanguage:
 
 
 if __name__ == '__main__':
-    #These "asserts" using only for self-checking and not necessary for auto-testing
-
+	#These "asserts" using only for self-checking and not necessary for auto-testing
+	'''
     message_1 = HackerLanguage()
     message_1.write("secrit")
     message_1.delete(2)
     message_1.write("et")
     message_2 = HackerLanguage()
+    message_3 = HackerLanguage()
     message = HackerLanguage()
+
 
     assert message_1.send() == "111001111001011100011111001011001011110100"
     assert message_2.read("11001011101101110000111010011101100") == "email"
-    assert message.read('1001101111100110000001100101110110111000011101001110110010000001101\
-    	0011110011100000011011011110010.11100101101111110001011011111110100@1100111110110111000011101\
-    	0011101100.110001111011111101101') == "My email is mr.robot@gmail.com"
+    assert message_3.read('1001101111100110000001100101110110111000011101001110110010000001101\
+0011110011100000011011011110010.11100101101111110001011011111110100@1100111110110111000011101\
+0011101100.110001111011111101101') == "My email is mr.robot@gmail.com"
+    assert message_2.read('1001001100000011000011101101100000011101001101001111001011001011100100...') == 'I am tired...'
     print("Coding complete? Let's try tests!")
+	'''
+
+	message = HackerLanguage()
+	message.delete(10)
+	message.write('I need more % and $ from this deal!')
+	message.send()
+	assert message.send() == "100100110000001101110110010111001011100100100000011011011101111111001011001011000000%10000001100001110111011001001000000$100000011001101110010110111111011011000000111010011010001101001111001110000001100100110010111000011101100!"

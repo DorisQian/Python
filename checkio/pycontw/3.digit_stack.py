@@ -43,7 +43,19 @@ all(re.match("\APUSH \d\Z", c) or с == "POP" or c == "PEEK" for c in commands)
 '''
 
 def digit_stack(commands):
-    return 0
+    total =0 
+    stack = []
+    for com in commands:
+    	comm= com.split(' ')
+    	if comm[0] == 'PUSH':
+    		stack.append(comm[1])
+    	elif comm[0] == 'POP' and len(stack):
+    		total += int(stack.pop())
+    	elif comm[0] == 'PEEK' and len(stack):
+    		total += int(stack[-1])
+    	else:
+    		continue
+    return total
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

@@ -103,15 +103,17 @@ def place_queens(placed):
                 #result.append(r)
     #print(result)
     #return result
-'''
+
 
 from itertools import combinations, product
+from functools import lru_cache
 
 
 def place_queens(placed):
     cols = 'abcdefgh'
     rows = '12345678'
 
+    @lru_cache(maxsize=None)
     def diagonal(point):
         threats = []
         for i in range(1, 9):
@@ -123,6 +125,7 @@ def place_queens(placed):
                     threats.append(str(col) + str(row))
         return threats
 
+    @lru_cache(maxsize=None)
     def judge(*args):
         for com in args:
             col = set([c[0] for c in com])
@@ -146,7 +149,7 @@ def place_queens(placed):
             cols = cols.replace(w[0], '')
         if w[1] in rows:
             rows = rows.replace(w[1], '')
-    print(cols, rows)
+    #print(cols, rows)
 
     no_threat = [s[0] + s[1] for s in product(cols, rows)]
     #print(no_threat)
@@ -155,7 +158,7 @@ def place_queens(placed):
         for diag in dia_threats:
             if diag in no_threat:
                 no_threat.remove(diag)
-    print(no_threat)
+    #print(no_threat)
 
     leng = 8 - length
     if leng == 1:
@@ -172,11 +175,38 @@ def place_queens(placed):
         if combines:
             for c in combines[0]:
                 placed.add(c)
-            print(placed)
+            #print(placed)
             return placed
         else:
             return set()
+'''
 
+from itertools import combinations, permutations
+
+
+def place_queens(placed):
+    for (c1, r1), (c2, r2) in combinations(placed, 2):
+        if c1 == c2 or r1 == r2 or abs(ord(c1) - ord(c2)) == abs(int(r1) - int(r2)):
+            return set()
+
+    cols = list('abcdefgh')
+    rows = list('12345678')
+
+    for c, r in placed:
+        cols.remove(c)
+        rows.remove(r)
+
+    for per in permutations(rows, len(rows)):
+        occupied = placed.copy()
+        points = [cols[i] + n for i, n in enumerate(per)]
+        for queen in points:
+            if all(abs(ord(queen[0]) - ord(col)) != abs(int(queen[1]) - int(row))
+                    for (col, row) in occupied):
+                occupied.add(queen)
+            else:
+                break
+        else:return occupied
+    else:return set()
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
@@ -221,3 +251,38 @@ if __name__ == '__main__':
     assert checker(place_queens, {"b2", "c4", "d6", "e8"}, True), "1st Example"
     assert checker(place_queens, {"b2", "c4", "d6", "e8", "a7", "g5"}, False), "2nd Example"
     assert checker(place_queens, {"a5", "b7", "c1", "e2", "f8", "g6", "h3"}, True)
+    assert checker(place_queens, {"a1", "h8"}, False)
+    assert checker(place_queens, {"b3", "d4", "f5"}, False)
+    assert checker(place_queens, {"c3", "d3", "e3", "f3"}, False)
+
+    assert checker(place_queens, {"b3", "d2", "f5"}, True)
+    assert checker(place_queens, {"a4", "g8", "h2", "e1", "f6"}, True)
+'''
+'''
+
+'''
+    TESTS = {
+    
+    "Extra": [
+       
+        {
+            "input": ["a1", "h8"],
+            "answer": [["a1", "h8"], False],
+            "show": '{"a1", "h8"}'
+        },
+        {
+            "input": ["d5"],
+            "answer": [["d5"], True],
+            "show": '{"d5"}'
+        },
+        {
+            "input": ["b2", "f7"],
+            "answer": [["b2", "f7"], True],
+            "show": '{"b2", "f7"}'
+        },
+
+
+    ]
+}
+'''
+

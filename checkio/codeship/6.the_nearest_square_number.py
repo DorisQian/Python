@@ -31,9 +31,31 @@ Precondition:
 如何使用它：用于数学分析。
 '''
 
+from math import sqrt
 def nearest_square(number):
-    #replace this for solution
-    return 0
+    square = []
+    i = 1
+    while True:
+        decimal = str(sqrt(number + i)).split('.')[1]
+        if decimal == '0':
+            square.append(i)
+            break
+        else:
+            i += 1
+    j = 1
+    while True:
+        if number - j > 0:
+            decimal = str(sqrt(number - j)).split('.')[1]
+            if decimal == '0':
+                square.append(-j)
+                break
+            else:
+                j += 1
+        else:
+            break
+    m = min([abs(n) for n in square])
+    diff = [i for i in square if abs(i) == m]
+    return diff[0] + number
 
 if __name__ == '__main__':
     print("Example:")

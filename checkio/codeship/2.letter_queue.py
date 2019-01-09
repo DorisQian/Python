@@ -78,7 +78,19 @@ PUSH T DOT结果
 '''
 
 def letter_queue(commands):
-    return ""
+	result_list = []
+	if len(commands):
+		for command_list in commands:
+			c = command_list.split(' ')
+			if c[0] == 'PUSH':
+				result_list.append(c[1])
+			if c[0] == 'POP':
+				if len(result_list):
+					result_list.pop(0)
+		return ''.join(result_list)
+	else:
+		return ''
+			
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing

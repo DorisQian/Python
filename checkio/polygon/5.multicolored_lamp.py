@@ -41,9 +41,28 @@ Precondition: 4 colors: Green, Red, Blue, Yellow.
 
 先决条件：4种颜色：绿色，红色，蓝色，黄色。
 '''
+class Change:
+    def __init__(self, color):
+        self.color = color
+    def switch(self):
+        if self.color == 'Green':
+            return 'Red'
+        elif self.color == 'Red':
+            return 'Blue'
+        elif self.color == 'Blue':
+            return 'Yellow'
+        else:
+            return 'Green'
 
 class Lamp:
-    pass
+    def __init__(self):
+        self.color = ' '
+
+    def light(self):
+        color = Change(self.color)
+        self.color = color.switch()
+        #print(self.color)
+        return self.color
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
